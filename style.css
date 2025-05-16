@@ -1,154 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400&display=swap');
-
-:root {
-  --primary-color: #ffffff;
-  --accent-color: #a68eff;
-  --bg-color: #0b0c10;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --nav-hover: #ffffff;
-}
-
-body {
+* {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-color);
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden;
   font-family: 'Inter', sans-serif;
-  color: var(--primary-color);
-  overflow-x: hidden;
+  color: #fff;
+  background-color: black;
 }
 
-/* STARFIELD BACKGROUND */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url('https://cdn.pixabay.com/photo/2017/09/15/17/05/starry-sky-2757536_1280.jpg') no-repeat center center fixed;
-  background-size: cover;
-  opacity: 0.1;
-  z-index: -2;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: repeating-radial-gradient(circle, white 1px, transparent 2px);
-  animation: stars 100s linear infinite;
-  z-index: -1;
-  opacity: 0.2;
-}
-
-@keyframes stars {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-2000px);
-  }
-}
-
-/* NAVIGATION */
-.navbar {
+#bg {
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  padding: 15px 0;
+  left: 0;
+  z-index: -1;
 }
 
-.navbar ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  gap: 60px;
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
 }
 
-.navbar a {
-  position: relative;
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-style: italic;
+  color: #a68eff;
+  margin-bottom: 1.5rem;
+}
+
+nav a {
+  margin: 0 20px;
   text-decoration: none;
   color: #ffffff;
   font-weight: 500;
-  font-size: 1.05rem;
-  padding-bottom: 5px;
-  transition: color 0.3s ease;
+  position: relative;
+  font-size: 1rem;
 }
 
-.navbar a::after {
+nav a::after {
   content: '';
   position: absolute;
   width: 0%;
   height: 2px;
   left: 0;
-  bottom: 0;
+  bottom: -5px;
   background-color: #ffffff;
   transition: width 0.3s ease;
 }
 
-.navbar a:hover::after {
+nav a:hover::after {
   width: 100%;
-}
-
-/* HEADER */
-header {
-  padding: 180px 20px 100px;
-  text-align: center;
-  background: transparent;
-}
-
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3em;
-  margin-bottom: 10px;
-}
-
-header p {
-  font-size: 1.1em;
-  font-style: italic;
-  color: var(--accent-color);
-}
-
-/* SECTIONS */
-section {
-  max-width: 900px;
-  margin: 60px auto;
-  padding: 20px;
-}
-
-h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2em;
-  margin-bottom: 20px;
-  border-left: 4px solid var(--accent-color);
-  padding-left: 12px;
-}
-
-/* CARD COMPONENT */
-.card {
-  background-color: var(--card-bg);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(166, 142, 255, 0.1);
-  backdrop-filter: blur(6px);
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.03);
-  font-size: 0.95em;
-  margin-top: 80px;
 }
