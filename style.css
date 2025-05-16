@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;500&display=swap');
+
+:root {
+  --primary-color: #2d2a32;
+  --accent-color: #c792ea;
+  --bg-color: #fdfaf6;
+  --card-bg: #ffffff;
+  --text-color: #333;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* HEADER */
+
+header {
+  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  color: var(--primary-color);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  margin: 0;
+}
+
+header p {
+  font-size: 1.2em;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* MAIN CONTENT */
+
+section {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+section h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--primary-color);
+  border-left: 5px solid var(--accent-color);
+  padding-left: 15px;
+  margin-top: 60px;
+  font-size: 1.8em;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  margin-top: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.card p, .card ul {
+  font-size: 1.05em;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card ul li {
+  margin-bottom: 10px;
+}
+
+/* LINKS */
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 30px;
+  background-color: #f0eef3;
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 80px;
+}
