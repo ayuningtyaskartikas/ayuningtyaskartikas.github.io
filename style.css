@@ -155,13 +155,41 @@ nav a {
     width: 100%;
     padding: 36px 20px; /* slightly reduce padding to lift content up */
 }
+    .hero-inner .hero-content {
+        width: 100%;
+        max-width: 980px; /* constrain line length on large screens */
+        margin: 0 auto;
+        padding: 0 20px; /* prevent touching screen edges on small viewports */
+        box-sizing: border-box;
+    }
+/* When the hero is solo (no image), center the left content and hide the right column */
+.hero.solo .hero-inner {
+    justify-content: center;
+}
+.hero.solo .hero-right { display: none; }
 .hero-left { flex: 1; text-align: left; }
 .hero-right { width: 320px; display:flex; align-items:center; justify-content:center; }
 .hero-profile img { width: 240px; height: 240px; object-fit:cover; border-radius: 14px; border: 4px solid rgba(166,142,255,0.08); box-shadow: 0 20px 60px rgba(4,6,20,0.6); }
 
 .hero-title { font-size: 3.5rem; letter-spacing: -0.6px; margin-bottom: 6px; color: #fff; font-weight:800; }
 .brand-prefix { font-weight: 700; font-size: 0.95rem; color: var(--accent1); margin-right: 8px; }
-.hero-code { display: inline-block; background: rgba(11,12,42,0.45); padding: 12px 16px; border-radius: 8px; margin: 18px 0; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; }
+.hero-code {
+    display: block; /* take full available width inside the hero content */
+    background: rgba(11,12,42,0.45);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 18px 0;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: pre-wrap; /* allow long lines to wrap instead of overflowing */
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    /* on very small viewports, allow horizontal scroll as a fallback for long tokens */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 .hero-actions { display:flex; gap: 12px; align-items:center; }
 .cta-outline { display:inline-block; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); color: #fff; text-decoration:none; }
 
@@ -181,36 +209,64 @@ nav a {
     .hero-title { font-size: 2.2rem; }
 }
 
-/* Additional mobile polish for smaller phones */
+/* Mobile polish for smaller phones: increase breathing room and tap targets */
 @media (max-width: 600px) {
-    .header-inner { padding: 8px 14px; }
-    .main-nav { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .main-nav a { font-size: 0.95rem; padding-bottom: 6px; }
+    .header-inner { padding: 12px 16px; }
+    .main-nav { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+    .main-nav a { font-size: 1rem; padding-bottom: 8px; }
 
+    /* keep hamburger visible on small screens for predictable navigation */
     .nav-toggle { display: inline-block; }
-    .main-nav { display: none; }
 
-    .hero { height: 78vh; }
-    .hero-inner { flex-direction: column; padding: 20px; }
+    /* more generous hero spacing so content doesn't feel comfortably separated from the header */
+    /* Use the mobile spacer variable so this can be tuned centrally */
+    .hero { height: min(70vh, 720px); padding-top: calc(var(--mobile-hero-spacer, 56px) + 30px); }
+    /* add extra internal top padding so hero content sits lower inside the hero */
+    .hero-inner { flex-direction: column; padding: 40px 18px 28px 18px; gap: 28px; }
+    .hero-inner .hero-content { padding: 0 18px; }
     .hero-left { text-align: center; }
-    .hero-right { width: 160px; margin-bottom: 12px; }
-    .hero-profile img { width: 140px; height: 140px; }
-    .hero-title { font-size: 1.9rem; line-height: 1.05; }
-    .tagline { font-size: 0.95rem; }
-    .hero-code { font-size: 0.85rem; padding: 10px 12px; }
-    .hero-actions { flex-direction: column; gap: 10px; align-items: center; }
+    .hero-right { width: 180px; margin-bottom: 8px; }
+    /* small top margin for the profile area so images don't visually butt under the header */
+    .hero-right .hero-profile img { margin-top: 8px; }
+    .hero-profile img { width: 160px; height: 160px; }
+    .hero-title { font-size: 2.4rem; line-height: 1.02; }
+    .tagline { font-size: 1rem; }
+    .hero-code { font-size: 0.95rem; padding: 12px 14px; }
+    .hero-actions { flex-direction: column; gap: 14px; align-items: center; }
 
-    .project-grid { grid-template-columns: 1fr; gap: 14px; }
-    .project-thumb img { height: 120px; }
-    .project-card { padding: 14px; border-radius: 10px; }
+/* Mobile-only spacer: adds an adjustable gap between the header and the first hero content
+   without changing markup. Tweak --mobile-hero-spacer to adjust the gap. */
+@media (max-width: 600px) {
+    :root { --mobile-hero-spacer: 56px; }
+    /* include safe-area inset for devices with notches */
+    .site-header + .hero::before {
+        content: '';
+        display: block;
+        height: calc(var(--mobile-hero-spacer) + env(safe-area-inset-top, 0px));
+        width: 100%;
+        pointer-events: none;
+    }
+}
+    .logo { display: inline-flex; }
 
-    nav { gap: 18px; }
-    .social-links a { margin: 0 10px; }
+    /* make content sections feel airy on mobile */
+    .project-grid { grid-template-columns: 1fr; gap: 18px; }
+    .project-thumb img { height: 140px; }
+    .project-card { padding: 18px; border-radius: 12px; }
+
+    nav { gap: 20px; }
+    .social-links a { margin: 0 12px; }
 
     /* Make nav items easier to tap */
-    .main-nav a { padding: 8px 6px; }
-}
+    .main-nav a { padding: 10px 8px; }
 
+    /* slightly more space between header and mobile menu panel */
+    .mobile-menu { top: 72px; }
+
+    /* make general content sections more spacious on mobile */
+    .content-section { padding: 80px 18px 40px 18px; }
+}
+/* Mobile styles consolidated further below */
 .hero h1 {
   font-size: 3rem;
   font-weight: 700;
@@ -232,22 +288,26 @@ nav a {
     justify-content: flex-start;
     margin-bottom: 0.9rem;
 }
-.brand-prefix {
-    color: var(--accent1);
+
+/* unified brand text style so each phrase shares the same font sizing and weight */
+.brand-text {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
     font-weight: 700;
-    letter-spacing: 1px;
-    font-size: 0.95rem;
+    font-size: 1.02rem;
+    letter-spacing: 0.6px;
+    color: #fff;
 }
+.brand-prefix { color: var(--accent1); margin-right: 8px; }
 .brand-tags { display:inline-flex; gap:12px; align-items:center; margin-left:8px; }
-.tagline { color: #fff; font-weight:800; font-size: 1.15rem; letter-spacing: 0.6px; }
+.tagline { color: #fff; }
 .separator { color: rgba(255,255,255,0.28); margin: 0 8px; }
 
 /* Slightly smaller tagline on narrower viewports */
 @media (max-width: 900px) {
-    .tagline { font-size: 1.02rem; }
+    .brand-text { font-size: 0.98rem; }
 }
 @media (max-width: 600px) {
-    .tagline { font-size: 0.95rem; }
+    .brand-text { font-size: 0.9rem; }
 }
 
 .brand-rotator {
@@ -377,11 +437,19 @@ nav a:hover::after {
 }
 
 .profile-photo {
+    display: block;
     width: 200px;
     height: 200px;
+    flex: 0 0 200px;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid #a68eff;
+    box-shadow: 0 12px 36px rgba(4,6,20,0.5);
 }
 
 .about-text {
@@ -409,6 +477,91 @@ nav a:hover::after {
 .cta-button:hover {
     background-color: #a68eff;
     color: #0b0c2a;
+}
+
+/* Arrow-style CTA (icon-only) */
+.cta-button.cta-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(166,142,255,0.06), rgba(109,211,255,0.03));
+    color: var(--accent1);
+    border: 1px solid rgba(166,142,255,0.12);
+    font-size: 1.6rem;
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, background 220ms ease;
+    /* custom cursor for CTA hover/focus will be defined on the CTA selectors below */
+}
+.cta-button.cta-arrow:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(10,8,40,0.35);
+    background: linear-gradient(90deg, rgba(166,142,255,0.12), rgba(109,211,255,0.06));
+}
+.cta-button.cta-arrow:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(166,142,255,0.12);
+}
+
+/* Scoped SVG cursor: only show the custom down-arrow when hovering/focusing CTA buttons */
+.cta-button.cta-arrow:hover, .cta-button.cta-arrow:focus,
+.cta-button.section-down:hover, .cta-button.section-down:focus {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 4v14M6 10l6 6 6-6" stroke="%23a68eff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>') 12 12, pointer;
+}
+
+/* small centered down-arrow used between sections */
+.section-down-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0 18px 0;
+}
+.cta-button.section-down {
+    /* match the main CTA (icon-only) size & style for consistency */
+    width: 56px;
+    height: 56px;
+    font-size: 1.6rem;
+    padding: 0;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, rgba(166,142,255,0.06), rgba(109,211,255,0.03));
+    border: 1px solid rgba(166,142,255,0.12);
+    color: var(--accent1);
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, background 220ms ease;
+}
+.cta-button.section-down:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 14px 30px rgba(10,8,40,0.35); }
+.cta-button.section-down:focus { outline: none; box-shadow: 0 0 0 4px rgba(166,142,255,0.12); }
+
+@media (prefers-reduced-motion: reduce) {
+    .cta-button.cta-arrow { transition: none; transform: none; }
+}
+
+/* custom cursor when hovering the arrow CTA: hide native cursor and show a soft ring */
+/* keep the custom ring behavior via body.custom-cursor, but don't globally hide the cursor here;
+    instead we will scope the SVG cursor to the CTA hover/focus selectors so native cursor changes only there */
+body.custom-cursor::before {
+    content: '';
+    position: fixed;
+    width: 36px; height: 36px;
+    top: calc(var(--cursor-y, 50%) - 18px);
+    left: calc(var(--cursor-x, 50%) - 18px);
+    background: rgba(166,142,255,0.12);
+    border: 2px solid rgba(166,142,255,0.22);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate3d(0,0,0);
+    transition: transform 120ms ease-out, opacity 120ms ease-out;
+    z-index: 9999;
+}
+
+/* track movement for the custom cursor (updated via JS) */
+/* cursor position is updated via JS in script.js which sets --cursor-x and --cursor-y */
+
+@media (prefers-reduced-motion: reduce) {
+    body.custom-cursor::before { transition: none; }
 }
 
 /* ======== NEW: Experience Timeline Styles ======== */
@@ -545,6 +698,12 @@ footer {
     color: #a68eff;
 }
 
+/* icon style for inline SVG social logos in footer */
+.social-links a svg { display: inline-block; vertical-align: middle; width: 28px; height: 28px; }
+.social-links a { padding: 6px; border-radius: 8px; background: transparent; }
+.social-links a:focus, .social-links a:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(166,142,255,0.08); }
+.social-links { display: flex; justify-content: center; gap: 18px; align-items: center; }
+
 .footer-text {
     color: #888;
     font-size: 0.9rem;
@@ -571,6 +730,41 @@ footer {
         flex-direction: column;
         text-align: center;
     }
+    .profile-photo { margin-bottom: 18px; }
+}
+
+/* Extra mobile spacing: make each section feel more separated and breathable on small screens */
+@media (max-width: 600px) {
+    /* Slightly larger vertical padding for content sections */
+    .content-section {
+        padding: 110px 18px 56px 18px; /* top, sides, bottom */
+    }
+
+    /* Make the centered down-arrow spacing larger so sections don't feel cramped */
+    .section-down-wrap {
+        margin: 18px 0 38px 0;
+    }
+
+    /* Add extra spacing inside About area and make the profile stand apart */
+    .about-container {
+        gap: 36px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    .profile-photo { margin-bottom: 22px; }
+
+    /* Project grid items should breathe more vertically */
+    .project-grid { gap: 24px; }
+
+    /* Timeline items need more vertical separation between entries */
+    .timeline-item { padding: 18px 20px; margin-bottom: 22px; }
+
+    /* Contact/footer spacing */
+    .contact-text { margin-bottom: 48px; }
+    footer { padding: 56px 20px; }
+
+    /* Ensure mobile menu and header spacing remain comfortable */
+    .mobile-menu { top: 80px; }
 }
 
 /* Reveal animation helpers */
@@ -655,4 +849,22 @@ footer {
 @media (max-width: 768px) {
     .book-wrapper { height: 85vh; padding: 12px; }
     .page { padding: 18px; }
+}
+
+.project-thumb {
+    /* Define a size for the container if you want a specific thumbnail dimension */
+    /* For example: */
+    width: 100%; /* Or set a fixed width like 300px */
+    height: 200px; /* Or set a fixed height that fits your design */
+    overflow: hidden; /* Important to hide any parts of the video that might extend beyond this container */
+}
+
+.project-thumb video {
+    width: 100%; /* Make the video take up 100% of its parent's width */
+    height: 100%; /* Make the video take up 100% of its parent's height */
+    object-fit: cover; /* This is key! It ensures the video covers the entire container,
+                          maintaining its aspect ratio and cropping if necessary.
+                          Alternative: `contain` to fit the entire video within the container,
+                          potentially leaving black bars. */
+    display: block; /* Removes any extra space below the video element */
 }

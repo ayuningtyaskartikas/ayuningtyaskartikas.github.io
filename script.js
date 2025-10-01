@@ -365,3 +365,47 @@ window.addEventListener('keydown', (e) => {
   }
 });
 }
+
+// ====== SMALL UX ENHANCEMENTS ======
+// Make header logo clickable to scroll to hero
+const logoLink = document.querySelector('.logo');
+if (logoLink) {
+  logoLink.style.cursor = 'pointer';
+  logoLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const hero = document.querySelector('.hero');
+    if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+// Toggle a custom cursor class when hovering the arrow CTA for a bigger interactive pointer
+const arrowCTA = document.querySelector('.cta-button.cta-arrow');
+if (arrowCTA) {
+  arrowCTA.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor'));
+  arrowCTA.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor'));
+  // keyboard focus should also show it
+  arrowCTA.addEventListener('focus', () => document.body.classList.add('custom-cursor'));
+  arrowCTA.addEventListener('blur', () => document.body.classList.remove('custom-cursor'));
+}
+
+// Also apply the same behavior to all section-down buttons
+const sectionDowns = document.querySelectorAll('.cta-button.section-down');
+if (sectionDowns && sectionDowns.length) {
+  sectionDowns.forEach(btn => {
+    btn.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor'));
+    btn.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor'));
+    btn.addEventListener('focus', () => document.body.classList.add('custom-cursor'));
+    btn.addEventListener('blur', () => document.body.classList.remove('custom-cursor'));
+  });
+}
+
+// Update CSS variables for the custom cursor ring when active
+// Keep this minimal and respect reduced-motion preferences
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+if (!prefersReducedMotion.matches) {
+  document.addEventListener('mousemove', (e) => {
+    if (!document.body.classList.contains('custom-cursor')) return;
+    document.body.style.setProperty('--cursor-x', e.clientX + 'px');
+    document.body.style.setProperty('--cursor-y', e.clientY + 'px');
+  }, { passive: true });
+}
