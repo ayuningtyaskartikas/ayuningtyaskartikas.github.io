@@ -8,20 +8,101 @@
     <link rel="stylesheet" href="style.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <canvas id="bg"></canvas>
+        <header class="site-header">
+            <div class="header-inner">
+                <a href="#" class="logo" aria-label="Ayu Ningtyas Kartika Sari logo">
+                    <img src="assets/ayu.jpg" alt="Ayu logo" class="logo-img" />
+                </a>
+                <nav class="main-nav">
+                        <a href="#about">About</a>
+                        <a href="#experience">Experience</a>
+                        <a href="#projects">Projects</a>
+                        <a href="#contact">Contact</a>
+                </nav>
+                <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation">
+          <span class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+    
+            </div>
+            <div id="reading-progress" aria-hidden="true"><div id="reading-progress-bar"></div></div>
+        </header>
+
+                <!-- Mobile menu (hidden on desktop) -->
+                <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
+                    <div class="mobile-inner">
+                        <a href="#about">About</a>
+                        <a href="#experience">Experience</a>
+                        <a href="#projects">Projects</a>
+                        <a href="#contact">Contact</a>
+                        
+                    </div>
+                </nav>
+                        <span id="menu-live" class="sr-only" aria-live="polite"></span>
+
     <main class="hero">
-        <h1>Ayu Ningtyas Kartika Sari</h1>
-        <p>CATALYST · IMPACT-DRIVEN DEVELOPER · GLOBAL COLLABORATOR</p>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </main>
+                                <div class="hero-inner">
+                                    <div class="hero-left">
+                                        <h1 class="hero-title">Ayu Ningtyas Kartika Sari</h1>
+
+                                                    <div class="brand">
+                                                        <span class="brand-prefix">CATALYST ·</span>
+                                                        <div class="brand-tags">
+                                                            <span class="tagline">IMPACT-DRIVEN DEVELOPER</span>
+                                                            <span class="separator">·</span>
+                                                            <span class="tagline">GLOBAL COLLABORATOR</span>
+                                                        </div>
+                                                        <!-- keep the rotating typewriter hidden but available for animation/fallback -->
+                                                        <div class="brand-rotator" aria-hidden="true">
+                                                            <span class="typewriter sr-only" aria-hidden="false"></span><span class="cursor sr-only" aria-hidden="true">▍</span>
+                                                            <span class="word sr-only">IMPACT-DRIVEN DEVELOPER</span>
+                                                            <span class="word sr-only">GLOBAL COLLABORATOR</span>
+                                                            <span class="word sr-only">CREATIVE PROBLEM-SOLVER</span>
+                                                        </div>
+                                                    </div>
+
+                                        <pre class="hero-code">const role = &quot;Impact-driven developer&quot;;
+                const focus = [&quot;Product&quot;, &quot;Education&quot;, &quot;Systems&quot;];</pre>
+
+                                        <div class="hero-actions">
+                                            <a href="#about" class="cta-button">Read my story</a>
+                                            
+                                        </div>
+
+                                        <!-- Accessible live region updated by JS to announce changing brand word -->
+                                        <span id="brand-live" class="sr-only" aria-live="polite"></span>
+                                    </div>
+
+                                    <div class="hero-right">
+                                        <!-- keep the starfield visible; show a profile inset for emphasis -->
+                                        <div class="hero-profile">
+                                            <img src="assets/ayunks.jpg" alt="Ayu Ningtyas Kartika Sari" />
+                                        </div>
+                                    </div>
+                                </div>
+        </main>
+            <!-- Book-style reading overlay -->
+            <div id="book-overlay" aria-hidden="true">
+                <div class="book-wrapper">
+                    <div class="book-spread">
+                        <div class="page left-page" data-page-index="0">
+                            <div class="page-inner"></div>
+                        </div>
+                        <div class="page right-page" data-page-index="1">
+                            <div class="page-inner"></div>
+                        </div>
+                    </div>
+                    <div class="book-shadow"></div>
+                </div>
+            </div>
     <section id="about" class="content-section">
       <h2>About Me</h2>
       <div class="about-container">
@@ -68,7 +149,27 @@
     <section id="projects" class="content-section">
       <h2>Projects</h2>
       <div class="project-grid">
-          <div class="project-card"> ... </div>
+          <article class="project-card">
+              <div class="project-thumb"><img src="assets/ayu.jpg" alt="Project thumbnail"></div>
+              <h3 class="project-title">Interactive Learning Tool</h3>
+              <p class="project-desc">A small web app focused on interactive CS examples and student exercises — combines clear UX with lightweight visualizations to help learners debug code.</p>
+              <div class="project-meta"><span class="tag">Education</span><span class="tag">Teaching</span></div>
+              <div class="project-links"><a href="#">View</a> <a href="#">Source</a></div>
+          </article>
+          <article class="project-card">
+              <div class="project-thumb"><img src="assets/ayunks.jpg" alt="Project thumbnail"></div>
+              <h3 class="project-title">Systems & Growth Dashboard</h3>
+              <p class="project-desc">Dashboard and automation tooling used to increase operational efficiency and drive data-led decisions for marketing and product teams.</p>
+              <div class="project-meta"><span class="tag">Data</span><span class="tag">Systems</span></div>
+              <div class="project-links"><a href="#">View</a> <a href="#">Source</a></div>
+          </article>
+          <article class="project-card">
+              <div class="project-thumb"><img src="assets/ayu.jpg" alt="Project thumbnail"></div>
+              <h3 class="project-title">Internship Blockchain Explorations</h3>
+              <p class="project-desc">Prototype experiments exploring blockchain use-cases for finance and product integrations during a summer internship.</p>
+              <div class="project-meta"><span class="tag">Blockchain</span><span class="tag">Prototype</span></div>
+              <div class="project-links"><a href="#">View</a> <a href="#">Source</a></div>
+          </article>
       </div>
     </section>
 
