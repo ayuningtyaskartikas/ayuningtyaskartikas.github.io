@@ -1,18 +1,22 @@
+/* Universal Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body, html {
   width: 100%;
-  height: 100%;
   font-family: 'Inter', sans-serif;
   color: white;
   background-color: #0b0c2a;
-  overflow: hidden;
 }
 
+/* Three.js Canvas Background */
 #bg {
   position: fixed;
   top: 0;
@@ -20,6 +24,7 @@ body, html {
   z-index: -1;
 }
 
+/* Hero Section Styles */
 .hero {
   height: 100vh;
   width: 100vw;
@@ -28,6 +33,7 @@ body, html {
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative;
   z-index: 1;
 }
 
@@ -41,8 +47,10 @@ body, html {
   font-style: italic;
   color: #a68eff;
   margin-bottom: 1.5rem;
+  letter-spacing: 1px;
 }
 
+/* Navigation Styles */
 nav {
   display: flex;
   gap: 40px;
@@ -54,12 +62,13 @@ nav a {
   font-weight: 500;
   position: relative;
   font-size: 1rem;
+  padding-bottom: 8px;
 }
 
 nav a::after {
   content: '';
   position: absolute;
-  bottom: -6px;
+  bottom: 0;
   left: 0;
   width: 0%;
   height: 2px;
@@ -69,4 +78,224 @@ nav a::after {
 
 nav a:hover::after {
   width: 100%;
+}
+
+/* General Content Section Styles */
+.content-section {
+  padding: 80px 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.content-section h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #a68eff;
+}
+
+/* ======== NEW: About Section Styles ======== */
+.about-container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.profile-photo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #a68eff;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: transparent;
+    border: 2px solid #a68eff;
+    color: #a68eff;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #a68eff;
+    color: #0b0c2a;
+}
+
+/* ======== NEW: Experience Timeline Styles ======== */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #a68eff;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+}
+
+/* Position the dot on the timeline line */
+.timeline-dot {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 3px solid #a68eff;
+    border-radius: 50%;
+    top: 24px;
+    z-index: 1;
+}
+
+/* Place containers on the left side */
+.timeline-item:nth-child(odd) {
+    left: 0;
+    padding-right: 60px;
+    text-align: right;
+}
+
+/* Place containers on the right side */
+.timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 60px;
+    text-align: left;
+}
+
+/* Place dots on the left side */
+.timeline-item:nth-child(odd) .timeline-dot {
+    right: -8px;
+}
+
+/* Place dots on the right side */
+.timeline-item:nth-child(even) .timeline-dot {
+    left: -8px;
+}
+
+.timeline-date {
+    font-weight: 700;
+    color: #a68eff;
+}
+
+.timeline-content h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.timeline-content h4 {
+    color: #ccc;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+/* Project Grid Styles (Unchanged) */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    background-color: rgba(27, 26, 60, 0.5);
+    backdrop-filter: blur(5px);
+    border: 1px solid #a68eff;
+    padding: 25px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ... other project card styles are the same ... */
+
+/* ======== NEW: Contact Section Styles ======== */
+.contact-text {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    line-height: 1.6;
+}
+
+#contact .cta-button {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+/* ======== NEW: Footer Styles ======== */
+footer {
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.social-links {
+    margin-bottom: 20px;
+}
+
+.social-links a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #a68eff;
+}
+
+.footer-text {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Add Responsive styles for timeline */
+@media screen and (max-width: 768px) {
+    .timeline::after {
+        left: 20px;
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 60px;
+        padding-right: 15px;
+        text-align: left;
+    }
+    .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
+        left: 0;
+    }
+    .timeline-dot {
+        left: 12px;
+    }
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
 }
