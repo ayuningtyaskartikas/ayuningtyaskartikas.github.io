@@ -875,3 +875,86 @@ footer {
                           potentially leaving black bars. */
     display: block; /* Removes any extra space below the video element */
 }
+
+/* ================= MOBILE MENU FIX ================= */
+
+/* Hide desktop nav & show hamburger on mobile */
+@media (max-width: 900px) {
+  .main-nav {
+    display: none;
+  }
+  .nav-toggle {
+    display: inline-flex;
+  }
+}
+
+/* Hamburger */
+.nav-toggle {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: none; /* only shown via media query */
+  z-index: 2001;
+}
+
+.nav-toggle .hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-toggle .hamburger span {
+  width: 28px;
+  height: 3px;
+  background: #fff;
+  border-radius: 3px;
+  transition: all .3s ease;
+}
+
+/* Animate to X */
+.nav-toggle.open .hamburger span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.nav-toggle.open .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.open .hamburger span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile panel (slides from right) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 75%;
+  height: 100vh;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right .35s ease;
+  z-index: 2000;
+  visibility: hidden;
+}
+
+.mobile-menu.open {
+  right: 0;
+  visibility: visible;
+}
+
+.mobile-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 40px 20px;
+}
+
+.mobile-inner a {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
