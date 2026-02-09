@@ -32,10 +32,13 @@ starGeometry.setAttribute(
 );
 
 const starMaterial = new THREE.PointsMaterial({
-  color: 0xffffff,
-  size: 0.5,
-  sizeAttenuation: true
+  color: 0xd8d2c6,  // warm sand instead of pure white
+  size: 0.35,
+  sizeAttenuation: true,
+  transparent: true,
+  opacity: 0.55
 });
+
 
 const starField = new THREE.Points(starGeometry, starMaterial);
 scene.add(starField);
