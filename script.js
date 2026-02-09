@@ -11,7 +11,6 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
   antialias: true
 });
-
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 camera.position.z = 20;
@@ -23,9 +22,9 @@ const positions = new Float32Array(starCount * 3);
 
 for (let i = 0; i < starCount; i++) {
   const i3 = i * 3;
-  positions[i3] = (Math.random() - 0.5) * 1000;     // x
-  positions[i3 + 1] = (Math.random() - 0.5) * 1000; // y
-  positions[i3 + 2] = (Math.random() - 0.5) * 1000; // z
+  positions[i3] = (Math.random() - 0.5) * 1000;
+  positions[i3 + 1] = (Math.random() - 0.5) * 1000;
+  positions[i3 + 2] = (Math.random() - 0.5) * 1000;
 }
 
 starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -55,10 +54,7 @@ function animate() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce) requestAnimationFrame(animate);
 
-  // subtle rotation
   starField.rotation.y += 0.0001;
-
-  // interactive rotation
   starField.rotation.x += (mouseY - starField.rotation.x) * 0.0005;
   starField.rotation.y += (mouseX - starField.rotation.y) * 0.0005;
 
@@ -71,32 +67,31 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-});
+}, { passive: true });
+
 
 // ====== READING PROGRESS BAR ======
 const progressBar = document.getElementById('reading-progress-bar');
-
 function updateProgress() {
   const scrollTop = window.scrollY || window.pageYOffset;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
   if (progressBar) progressBar.style.width = pct + '%';
 }
-
 window.addEventListener('scroll', updateProgress, { passive: true });
 updateProgress();
 
+
 // ====== HEADER SHRINK ON SCROLL ======
 const header = document.querySelector('.site-header');
-
 function updateHeader() {
   if (!header) return;
   if (window.scrollY > 20) header.classList.add('scrolled');
   else header.classList.remove('scrolled');
 }
-
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
+
 
 // ====== REVEAL ON SCROLL ======
 const revealElements = document.querySelectorAll('.reveal');
@@ -117,13 +112,13 @@ if ('IntersectionObserver' in window && revealElements.length) {
   revealElements.forEach(el => el.classList.add('visible'));
 }
 
+
 // ====== BOOK OVERLAY: populate pages and animate flips ======
 const bookOverlay = document.getElementById('book-overlay');
 const leftPage = document.querySelector('.page.left-page .page-inner');
 const rightPage = document.querySelector('.page.right-page .page-inner');
 const rightPageEl = document.querySelector('.page.right-page');
 
-// Gather major content sections to put into book pages
 const contentSections = Array.from(document.querySelectorAll('.content-section'));
 let pages = [];
 
@@ -147,10 +142,10 @@ function showSpread(index) {
 let currentSpread = 0;
 
 function handleBookOverlay() {
-  if (!bookOverlay) return;
+  if (!bookOverlay || spreads.length === 0) return;
   const heroHeight = document.querySelector('.hero')?.offsetHeight || 0;
 
-  if (window.scrollY > heroHeight / 2 && spreads.length) {
+  if (window.scrollY > heroHeight / 2) {
     bookOverlay.style.display = 'flex';
     bookOverlay.classList.add('open');
     bookOverlay.setAttribute('aria-hidden', 'false');
@@ -168,7 +163,7 @@ function flipToSpread(targetIndex) {
 
   if (targetIndex > currentSpread) {
     rightPageEl.classList.remove('flipping');
-    void rightPageEl.offsetWidth; // reflow
+    void rightPageEl.offsetWidth;
     rightPageEl.classList.add('flipping');
 
     setTimeout(() => {
@@ -199,23 +194,6 @@ window.addEventListener('scroll', () => {
 
 handleBookOverlay();
 
-// Close overlay when clicking outside the book
-if (bookOverlay) {
-  bookOverlay.addEventListener('click', (e) => {
-    if (e.target === bookOverlay) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  });
-}
-
-// Close overlay on Escape
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    if (bookOverlay && bookOverlay.classList.contains('open')) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-});
 
 // ====== SCROLLSPY: highlight active nav link ======
 const navLinks = Array.from(document.querySelectorAll('.main-nav a'));
@@ -224,7 +202,6 @@ const sections = navLinks
   .filter(Boolean);
 
 function updateActiveNav() {
-  if (!sections.length) return;
   const scrollPos = window.scrollY + (window.innerHeight * 0.2);
   let activeIndex = -1;
 
@@ -238,7 +215,6 @@ function updateActiveNav() {
 window.addEventListener('scroll', updateActiveNav, { passive: true });
 updateActiveNav();
 
-// Smooth-scroll for nav links
 navLinks.forEach(a => {
   a.addEventListener('click', (e) => {
     e.preventDefault();
@@ -247,66 +223,44 @@ navLinks.forEach(a => {
   });
 });
 
-// ====== MOBILE NAV TOGGLE ======
+
+// ====== MOBILE NAV TOGGLE (THIS WILL NOW ALWAYS RUN) ======
 const navToggle = document.querySelector('.nav-toggle');
 const mobileMenu = document.getElementById('mobile-menu');
-const menuLive = document.getElementById('menu-live');
 
 function closeMobileMenu() {
-  if (!mobileMenu || !navToggle) return;
+  if (!navToggle || !mobileMenu) return;
   mobileMenu.classList.remove('open');
   mobileMenu.setAttribute('aria-hidden', 'true');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.classList.remove('open');
+  const menuLive = document.getElementById('menu-live');
   if (menuLive) menuLive.textContent = 'Menu closed';
-}
-
-function openMobileMenu() {
-  if (!mobileMenu || !navToggle) return;
-  mobileMenu.classList.add('open');
-  mobileMenu.setAttribute('aria-hidden', 'false');
-  navToggle.setAttribute('aria-expanded', 'true');
-  navToggle.classList.add('open');
-  if (menuLive) menuLive.textContent = 'Menu opened';
-
-  // focus first link
-  const focusable = mobileMenu.querySelectorAll('a');
-  if (focusable.length) focusable[0].focus();
 }
 
 if (navToggle && mobileMenu) {
   navToggle.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.contains('open');
-    if (isOpen) closeMobileMenu();
-    else openMobileMenu();
+    const open = mobileMenu.classList.toggle('open');
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.classList.toggle('open', open);
+
+    const menuLive = document.getElementById('menu-live');
+    if (menuLive) menuLive.textContent = open ? 'Menu opened' : 'Menu closed';
   });
 
-  // close when a mobile link is clicked
   mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => closeMobileMenu());
+    a.addEventListener('click', closeMobileMenu);
   });
 
-  // click outside to close
-  document.addEventListener('click', (e) => {
-    if (!mobileMenu.classList.contains('open')) return;
-    const clickedInsideMenu = mobileMenu.contains(e.target);
-    const clickedToggle = navToggle.contains(e.target);
-    if (!clickedInsideMenu && !clickedToggle) closeMobileMenu();
-  });
-
-  // Escape closes menu
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
       closeMobileMenu();
       navToggle.focus();
     }
   });
-
-  // close menu if resizing to desktop
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900) closeMobileMenu();
-  });
 }
+
 
 // ====== TYPEWRITER BRAND EFFECT ======
 const rotatorEl = document.querySelector('.brand-rotator');
@@ -325,7 +279,6 @@ let isDeleting = false;
 function typeTick() {
   if (!typewriterEl || hiddenWords.length === 0) return;
 
-  // pause typewriter if book overlay is open
   if (bookOverlay && bookOverlay.classList.contains('open')) {
     setTimeout(typeTick, 400);
     return;
@@ -363,14 +316,14 @@ function typeTick() {
 
 setTimeout(typeTick, 900);
 
-// respect reduced motion for typewriter
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 if (prefersReduced.matches) {
   const firstWord = rotatorEl ? rotatorEl.querySelector('.word') : null;
   if (typewriterEl && firstWord) typewriterEl.textContent = firstWord.textContent;
 }
 
-// ====== SMALL UX ENHANCEMENTS ======
+
+// ====== HEADER LOGO SCROLL TO HERO ======
 const logoLink = document.querySelector('.logo');
 if (logoLink) {
   logoLink.style.cursor = 'pointer';
@@ -381,7 +334,8 @@ if (logoLink) {
   });
 }
 
-// Custom cursor ring for CTA buttons
+
+// ====== CUSTOM CURSOR (CTA ONLY) ======
 const arrowCTA = document.querySelector('.cta-button.cta-arrow');
 if (arrowCTA) {
   arrowCTA.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor'));
@@ -391,14 +345,12 @@ if (arrowCTA) {
 }
 
 const sectionDowns = document.querySelectorAll('.cta-button.section-down');
-if (sectionDowns.length) {
-  sectionDowns.forEach(btn => {
-    btn.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor'));
-    btn.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor'));
-    btn.addEventListener('focus', () => document.body.classList.add('custom-cursor'));
-    btn.addEventListener('blur', () => document.body.classList.remove('custom-cursor'));
-  });
-}
+sectionDowns.forEach(btn => {
+  btn.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor'));
+  btn.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor'));
+  btn.addEventListener('focus', () => document.body.classList.add('custom-cursor'));
+  btn.addEventListener('blur', () => document.body.classList.remove('custom-cursor'));
+});
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 if (!prefersReducedMotion.matches) {

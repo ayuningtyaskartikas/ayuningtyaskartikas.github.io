@@ -58,6 +58,7 @@ body, html {
   z-index: -1;
   opacity: 0.22;
   transition: opacity 420ms ease;
+  pointer-events: none;
 }
 
 /* =========================================
@@ -67,7 +68,7 @@ body, html {
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 9999;
   backdrop-filter: blur(10px);
   background: linear-gradient(180deg, rgba(20,35,33,0.78), rgba(20,35,33,0.35));
   border-bottom: 1px solid var(--line);
@@ -173,6 +174,9 @@ body, html {
   border: 0;
   padding: 6px;
   margin-left: 8px;
+  position: relative;
+  z-index: 10000;
+  pointer-events: auto;
 }
 .nav-toggle .hamburger{
   display: inline-block;
@@ -200,7 +204,8 @@ body, html {
   position: fixed;
   inset: 0 0 auto 0;
   top: 64px;
-  z-index: 60;
+  z-index: 10001;
+  pointer-events: auto;
   background: linear-gradient(180deg, rgba(20,35,33,0.98), rgba(20,35,33,0.94));
   border-bottom: 1px solid var(--line);
   transform: translateY(-10px);
@@ -669,14 +674,19 @@ footer{
 /* =========================================
    BOOK OVERLAY (kept, but de-purple'd)
 ========================================= */
-#book-overlay{
+#book-overlay {
   position: fixed;
   inset: 0;
   display: none;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+  pointer-events: none; /* ✅ no blocking */
   z-index: 80;
+}
+
+#book-overlay.open {
+  display: flex;
+  pointer-events: auto;
 }
 .book-wrapper{
   width: 90%;
@@ -744,6 +754,13 @@ footer{
   .hero-title{ font-size: 2.2rem; }
   .brand{ justify-content: center; }
   .main-nav{ gap: 18px; flex-wrap: wrap; justify-content: center; }
+  .nav-toggle {
+    display: inline-block;
+  }
+
+  .main-nav {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
