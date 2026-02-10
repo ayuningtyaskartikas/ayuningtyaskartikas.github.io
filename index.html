@@ -12,308 +12,375 @@
 </head>
 <body>
     <canvas id="bg"></canvas>
-        <header class="site-header">
-            <div class="header-inner">
-                <a href="#" class="logo" aria-label="Ayu Ningtyas Kartika Sari logo">
-                    <img src="/assets/logo.png" alt="Ayu logo" class="logo-img" />
-                </a>
-                <nav class="main-nav">
-                        <a href="#about">About</a>
-                        <a href="#experience">Experience</a>
-                        <a href="#projects">Projects</a>
-                        <a href="#elevator-pitch">Elevator Pitch</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#blogs">Blogs & Case Studies</a>
-                </nav>
-                <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation">
-          <span class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </button>
-    
+    <div class="layout">
+        <!-- Desktop sidebar -->
+        <aside class="sidebar" aria-label="Sidebar navigation">
+            <a href="#" class="side-logo" aria-label="Go to top">
+            <img src="/assets/logo.png" alt="Ayu logo" />
+            </a>
+
+            <div class="side-head">
+            <div class="side-name">Ayu Ningtyas</div>
+            <div class="side-words">
+                <span>Human</span><span class="dot">·</span>
+                <span>Tech</span><span class="dot">·</span>
+                <span>Clarity</span>
             </div>
-            <div id="reading-progress" aria-hidden="true"><div id="reading-progress-bar"></div></div>
-        </header>
+            <p class="side-blurb">
+                UI/UX + dev who makes systems feel simpler for real people.
+            </p>
+            </div>
 
-                <!-- Mobile menu (hidden on desktop) -->
-                <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
-                    <div class="mobile-inner">
-                        <a href="#about">About</a>
-                        <a href="#experience">Experience</a>
-                        <a href="#projects">Projects</a>
-                        <a href="#contact">Contact</a>
-                        
+            <nav class="side-nav" aria-label="Primary">
+            <a href="#about">About</a>
+            <a href="#experience">Journey</a>
+            <a href="#projects">Projects</a>
+            <a href="#blogs">Writing</a>
+            <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="side-foot">
+            <a class="side-btn" href="/assets/resume_ayu_sari.pdf" download>Download CV</a>
+            <div class="side-social">
+                <a href="https://www.linkedin.com/in/ayunks/" target="_blank" rel="noreferrer">LinkedIn</a>
+                <span class="dot">·</span>
+                <a href="https://github.com/ayuningtyaskartikas" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="main">
+                <header class="site-header">
+                    <div class="header-inner">
+                        <a href="#" class="logo" aria-label="Ayu Ningtyas Kartika Sari logo">
+                            <img src="/assets/logo.png" alt="Ayu logo" class="logo-img" />
+                        </a>
+                        <nav class="main-nav">
+                                <a href="#about">About</a>
+                                <a href="#experience">Experience</a>
+                                <a href="#projects">Projects</a>
+                                <a href="#elevator-pitch">Elevator Pitch</a>
+                                <a href="#contact">Contact</a>
+                                <a href="#blogs">Blogs & Case Studies</a>
+                        </nav>
+                        <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation">
+                <span class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                </button>
+            
                     </div>
-                </nav>
-                        <span id="menu-live" class="sr-only" aria-live="polite"></span>
+                    <div id="reading-progress" aria-hidden="true"><div id="reading-progress-bar"></div></div>
+                </header>
 
-    <main class="hero solo">
-                                <div class="hero-inner">
-                                    <div class="hero-content">
-                                        <div class="hero-left">
-                                            <h1 class="hero-title">Ayu Ningtyas Kartika Sari</h1>
+                        <!-- Mobile menu (hidden on desktop) -->
+                        <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
+                            <div class="mobile-inner">
+                                <a href="#about">About</a>
+                                <a href="#experience">Experience</a>
+                                <a href="#projects">Projects</a>
+                                <a href="#contact">Contact</a>
+                                
+                            </div>
+                        </nav>
+                                <span id="menu-live" class="sr-only" aria-live="polite"></span>
 
-                                                        <div class="brand">
-                                                            <span class="brand-prefix">POLYMATHIC ·</span>
-                                                            <div class="brand-tags">
-                                                                <span class="tagline">SYSTEMS CATALYST ·</span>
-                                                                <span class="separator">·</span>
-                                                                <span class="tagline brand-prefix">GLOBAL COLLABORATOR ·</span>
-                                                            </div>
-                                                            <!-- keep the rotating typewriter hidden but available for animation/fallback -->
-                                                            <div class="brand-rotator" aria-hidden="true">
-                                                                <span class="typewriter sr-only" aria-hidden="false"></span><span class="cursor sr-only" aria-hidden="true">▍</span>
-                                                                <span class="word sr-only">IMPACT-DRIVEN DEVELOPER</span>
-                                                                <span class="word sr-only">GLOBAL COLLABORATOR</span>
-                                                                <span class="word sr-only">CREATIVE PROBLEM-SOLVER</span>
-                                                            </div>
-                                                        </div>
+                                    <main class="hero solo">
+                                        <div class="hero-inner">
+                                            <div class="hero-content">
+                                                <div class="hero-left">
+                                                    <h1 class="hero-title">Ayu Ningtyas Kartika Sari</h1>
 
-                                            <pre class="hero-code">const goal = &quot;Driven by Impact.&quot;;
-                    const focus = "Defined by Code.";</pre>
+                                                                <div class="brand">
+                                                                    <span class="brand-prefix">POLYMATHIC ·</span>
+                                                                    <div class="brand-tags">
+                                                                        <span class="tagline">SYSTEMS CATALYST ·</span>
+                                                                        <span class="separator">·</span>
+                                                                        <span class="tagline brand-prefix">GLOBAL COLLABORATOR ·</span>
+                                                                    </div>
+                                                                    <!-- keep the rotating typewriter hidden but available for animation/fallback -->
+                                                                    <div class="brand-rotator" aria-hidden="true">
+                                                                        <span class="typewriter sr-only" aria-hidden="false"></span><span class="cursor sr-only" aria-hidden="true">▍</span>
+                                                                        <span class="word sr-only">IMPACT-DRIVEN DEVELOPER</span>
+                                                                        <span class="word sr-only">GLOBAL COLLABORATOR</span>
+                                                                        <span class="word sr-only">CREATIVE PROBLEM-SOLVER</span>
+                                                                    </div>
+                                                                </div>
 
-                                            <div class="hero-actions">
-                                                <a href="#about" class="cta-button cta-arrow" aria-label="Scroll to About">
-                                                    <span class="sr-only">Scroll to About</span>
-                                                    <span class="cta-arrow" aria-hidden="true">↓</span>
-                                                </a>
+                                                    <pre class="hero-code">const goal = &quot;Driven by Impact.&quot;;
+                            const focus = "Defined by Code.";</pre>
+
+                                                    <div class="hero-actions">
+                                                        <a href="#about" class="cta-button cta-arrow" aria-label="Scroll to About">
+                                                            <span class="sr-only">Scroll to About</span>
+                                                            <span class="cta-arrow" aria-hidden="true">↓</span>
+                                                        </a>
+                                                    </div>
+
+                                                    <!-- Accessible live region updated by JS to announce changing brand word -->
+                                                    <span id="brand-live" class="sr-only" aria-live="polite"></span>
+                                                </div>
                                             </div>
 
-                                            <!-- Accessible live region updated by JS to announce changing brand word -->
-                                            <span id="brand-live" class="sr-only" aria-live="polite"></span>
+                                            <div class="hero-right">
+                                                <!-- decorative right column (profile shown in About section below) -->
+                                                <div class="hero-profile" aria-hidden="true"></div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="hero-right">
-                                        <!-- decorative right column (profile shown in About section below) -->
-                                        <div class="hero-profile" aria-hidden="true"></div>
-                                    </div>
+                </main>
+                    <!-- Book-style reading overlay -->
+                    <div id="book-overlay" aria-hidden="true">
+                        <div class="book-wrapper">
+                            <div class="book-spread">
+                                <div class="page left-page" data-page-index="0">
+                                    <div class="page-inner"></div>
                                 </div>
-        </main>
-            <!-- Book-style reading overlay -->
-            <div id="book-overlay" aria-hidden="true">
-                <div class="book-wrapper">
-                    <div class="book-spread">
-                        <div class="page left-page" data-page-index="0">
-                            <div class="page-inner"></div>
-                        </div>
-                        <div class="page right-page" data-page-index="1">
-                            <div class="page-inner"></div>
+                                <div class="page right-page" data-page-index="1">
+                                    <div class="page-inner"></div>
+                                </div>
+                            </div>
+                            <div class="book-shadow"></div>
                         </div>
                     </div>
-                    <div class="book-shadow"></div>
+                <section id="about" class="content-section">
+                    <h2>About Me</h2>
+                    <div class="about-container">
+                        <!-- moved personal image to the top of About for a clearer layout (desktop and mobile) -->
+                        <div class="about-text">
+                    <p>I'm a catalyst for growth, passionate in accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results. My experience with diversity has shaped me into a strong global collaborator, I am committed to building bridges and driving positive change for others.</p>
+                    <a href="/assets/resume_ayu_sari.pdf" class="cta-button" download>Get my CV</a>
                 </div>
             </div>
-        <section id="about" class="content-section">
-            <h2>About Me</h2>
-            <div class="about-container">
-                <!-- moved personal image to the top of About for a clearer layout (desktop and mobile) -->
-                <div class="about-text">
-            <p>I'm a catalyst for growth, passionate in accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results. My experience with diversity has shaped me into a strong global collaborator, I am committed to building bridges and driving positive change for others.</p>
-            <a href="/assets/resume_ayu_sari.pdf" class="cta-button" download>Get my CV</a>
-        </div>
-      </div>
-    </section>
+            </section>
 
-    <!-- quick nav down arrow from About to Experience -->
-    <div class="section-down-wrap">
-        <a href="#experience" class="cta-button section-down" aria-label="Go to My Journey">↓</a>
-    </div>
+            <!-- quick nav down arrow from About to Experience -->
+            <div class="section-down-wrap">
+                <a href="#experience" class="cta-button section-down" aria-label="Go to My Journey">↓</a>
+            </div>
+            
+            <article class="project-card project-card--featured">
+                <div class="project-thumb">
+                    <video autoplay muted loop playsinline poster="/assets/web.png">
+                    <source src="/assets/battleship.mp4" type="video/mp4">
+                    </video>
+                    <span class="badge">Featured</span>
+                </div>
 
-    <section id="experience" class="content-section">
-        <h2>My Journey</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">2025 - Present</div>
-                <div class="timeline-content">
-                    <h3>Computer Science Teaching Assistant & Tutor</h3>
-                    <h4>Brigham Young University | Hawaii USA</h4>
-                    <p>Helping approximately 35+ students/week to debug their codes. Worked closely with 5+ professors, assisting in grading and attending class.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">2025</div>
-                <div class="timeline-content">
-                    <h3>Tech Intern</h3>
-                    <h4>CAMP Investment Technologies | Singapore</h4>
-                    <p>Hands-on experience with the full Software Development Lifecycle (SDLC), improving product quality by proactively identifying bugs and UX issues. Developed a strong understanding of blockchain technology and cryptocurrency.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">2020-2023</div>
-                <div class="timeline-content">
-                    <h3>Digital Marketing & Systems Specialist</h3>
-                    <h4>itsbuah.com | Jakarta, Indonesia</h4>
-                    <p>Bridged technology and business that successfully accelerated company’s growth up to 250% within 6 months.Partnered with 5+ cross-functional teams in sales and marketing to deliver data-driven insights. </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="blogs" class="content-section">
-      <h2>Portofolios</h2>
-      <div class="portofolio-grid">
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img1.jpeg"></div>
-                <h3 class="project-title">Jesus Christ</h3>
-            </article>
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img2.jpeg"></div>
-                <h3 class="project-title">Twin Peacock</h3>
-            </article>
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img3.jpeg"></div>
-                <h3 class="project-title">Purple Sunset</h3>
-            </article>
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img4.jpeg"></div>
-                <h3 class="project-title">Be You</h3>
-            </article>
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img5.jpeg"></div>
-                <h3 class="project-title">The Frog</h3>
-            </article>
-            <article class="project-card">
-                <div class="project-thumb"><img src="assets/img7.jpeg"></div>
-                <h3 class="project-title">Dreamer Cat</h3>
-            </article>
-      </div>
-    </section>
-    <section id="experience" class="content-section">
-        <h2>Peer Feedbacks</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">Dec 2025</div>
-                <div class="timeline-content">
-                    <h3>Aquima Catayoc</h3>
-                    <h4>Business Marketing Class</h4>
-                    <p>"I had the pleasure of working with Ayu on our JSlips advertising campaign project, and it was truly an outstanding experience. Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group."</p>
-                    <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">May 2025</div>
-                <div class="timeline-content">
-                    <h3>Cynthia Uvang</h3>
-                    <h4>RFHD BYU-Hawaii</h4>
-                    <p>"You are a remarkable individual and I’m happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!"</p>
-                    <p></p>
-                    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7330472254042013696/">view it in LinkedIn</a>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">Dec 2025</div>
-                <div class="timeline-content">
-                    <h3>Julia Shih</h3>
-                    <h4>Business Marketing Class</h4>
-                    <p>"I have worked on a class project with Tika, and she consistently stands out for her positive attitude and strong teamwork. She is always eager to help others and readily steps in whenever support is needed. Tika completes tasks efficiently, thinks quickly on her feet, and approaches every situation with kindness and professionalism."</p>
-                    <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="project-body">
+                    <h3 class="project-title">Battleship War Game</h3>
+                    <p class="project-desc">Arcade-style web game with custom assets + sound. Built to feel simple and satisfying.</p>
 
-    <!-- quick nav down arrow from Experience to Projects -->
-    <div class="section-down-wrap">
-        <a href="#projects" class="cta-button section-down" aria-label="Go to Projects">↓</a>
-    </div>
-    <section id="projects" class="content-section">
-      <h2>Projects</h2>
-      <div class="project-grid">
-          <article class="project-card">
-              <div class="project-thumb"><video><source src="/assets/battleship.mp4"></video></div>
-              <h3 class="project-title">Battleshipwar Game</h3>
-              <p class="project-desc">An mobile game interactive where I created all the assets by myself (game still on progress).</p>
-              <div class="project-meta"><span class="tag">Java</span><span class="tag">Android Studio</span></div>
-              <div class="project-links"><a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html">Play The Game</a> </div>
-          </article>
-          <article class="project-card">
-              <div class="project-thumb"><img src="/assets/web.png" alt="Project thumbnail"></div>
-              <h3 class="project-title">Indonesian Culinary Website</h3>
-              <p class="project-desc">A small website focused on Indonesian cuisine, provides recommendations and recipes.</p>
-              <div class="project-meta"><span class="tag">HTML5</span><span class="tag">CSS3 & Javascript</span></div>
-              <div class="project-links"><a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html">View</a> <a href="https://github.com/CS401W2018/projects-ayuningtyaskartikas/tree/main/final/indonesia-culinary">Source</a></div>
-          </article>
-          <article class="project-card">
-              <div class="project-thumb"><img src="/assets/student.png" alt="Project thumbnail"></div>
-              <h3 class="project-title">Student Videos</h3>
-              <p class="project-desc">Videos project for the Southeast Asia Conference.</p>
-              <div class="project-meta"><span class="tag">Business</span><span class="tag">Prototype</span></div>
-              <div class="project-links"><a href="https://bg.byuh.edu/student-videos">View</a>
-          </article>
-      </div>
-    </section>
-    </section>
-        <!-- quick nav down arrow from Projects to Contact -->
-        <div class="section-down-wrap">
-            <a href="#elevator-pitch" class="cta-button section-down" aria-label="SeE Elevator Pitch">↓</a>
-        </div>
+                    <div class="project-meta">
+                    <span class="tag">JS</span>
+                    <span class="tag">Canvas</span>
+                    <span class="tag">Game UI</span>
+                    </div>
 
-        <section id="elevator-pitch" class="content-section">
-            <h2>Elevator Pitch</h2>
-            <p class="contact-text">Aloha, I’m Ayu from Indonesia, a sophomore at Brigham Young University of Hawaii, majoring in Computer Science, with a minor in Marketing and Visual Arts. My journey began in marketing and sales, where I spent nearly three years working with a startup company in my home country. What started as a complete unknown for me became a passion, and my ability to quickly adapt helped me succeed. Currently I am working on campus as Teaching Assistant and Tutor for Computer Science Department, where I'm learning valuable skills that helped me to improve my problem-solving skills and critical thinking. I’m excited about leveraging my skills in tech industry. Driven by a passion for technology and with unique blend of skills, I believe that I can bring a unique perspective and contribute to projects in a meaningful way. I’m excited to connect with like-minded individuals and help shape the future of innovation.</p>
-        </section>
-        <div class="section-down-wrap">
-            <a href="#blogs" class="cta-button section-down" aria-label="Go to Blogs">↓</a>
-        </div>
-    <section id="blogs" class="content-section">
-      <h2>Blogs & Case Studies</h2>
-      <div class="project-grid">
-            <article class="project-card">
-              <div class="project-thumb"><img src="assets/linkedinlearning.jpeg"></div>
-              <h3 class="project-title">LinkedIn Learning</h3>
-              <p class="project-desc">See Courses that I have completed through LinkedIn Learning:</p>
-              <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713?u=2153100&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BXPebhHByTF2VQwICrIP3Cw%3D%3D">Content Marketing Foundations</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db?u=2153100">Digital Marketing Foundations</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b?u=2153100">SEO Foundations</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e?u=2153100">AI : Machine Learning</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/393a5b0d5396d407b0130746e7e0de614314d5c07629d17b14be7ca895d7b3fa?u=2153100">Marketing Foundations : E-commerce</a></p>
+                    <div class="project-links">
+                    <a class="link-primary" href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html">Play</a>
+                    <a class="link-ghost" href="https://github.com/...">Code</a>
+                    </div>
+                </div>
             </article>
-          <article class="project-card">
-              <div class="project-thumb"><img src="/assets/nikee.jpeg" alt="Project thumbnail"></div>
-              <h3 class="project-title">Personal Reflections Posts</h3>
-              <p class="project-desc">Check my personal reflections posts in my LinkedIn here :</p>
-              <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">What is Marketing?</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Customer Value</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Nike's Marketing Strategy</a></p>
-              <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Pepsi VS Coca-Cola</a></p>
-          </article>
-      </div>
-    </section>
-    <!-- quick nav down arrow from Projects to Contact -->
-    <div class="section-down-wrap">
-        <a href="#contact" class="cta-button section-down" aria-label="Go to Contact">↓</a>
-    </div>
 
-    <section id="contact" class="content-section">
-        <h2>Get In Touch</h2>
-        <p class="contact-text">I am always open to discussing new projects, creative ideas, or opportunities to be part of an impactful vision. Feel free to reach out!</p>
-        <a href="mailto:ayunks27@go.byuh.edu" class="cta-button">Send Email to Me!</a>
-    </section>
-    <footer>
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/ayunks/" target="_blank" aria-label="LinkedIn">
-                <!-- LinkedIn SVG (inline for crispness) -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M6.94 9.5H4.5V19H6.94V9.5ZM5.72 8.3C6.54 8.3 7.18 7.66 7.18 6.84C7.18 6.02 6.54 5.38 5.72 5.38C4.9 5.38 4.26 6.02 4.26 6.84C4.26 7.66 4.9 8.3 5.72 8.3ZM19 19H16.56V13.38C16.56 11.94 15.92 11 14.48 11C13.6 11 13.08 11.48 12.82 11.96C12.74 12.12 12.72 12.5 12.72 12.88V19H10.28V9.5H12.72V10.66C13.12 10.06 13.86 9.2 15.56 9.2C17.96 9.2 19 10.66 19 13.3V19Z" fill="#fff"/>
-                </svg>
-            </a>
-            <a href="https://github.com/ayuningtyaskartikas" target="_blank" aria-label="GitHub">
-                <!-- GitHub Mark SVG -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.89.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.39.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.42.36.8 1.08.8 2.18 0 1.57-.01 2.83-.01 3.22 0 .31.2.68.8.56C20.71 21.38 24 17.08 24 12 24 5.73 18.27.5 12 .5z" fill="#fff"/>
-                </svg>
-            </a>
-        </div>
-        <p class="footer-text">&copy; 2025 Ayu Ningtyas Kartika Sari.</p>
-    </footer>
+
+            <section id="experience" class="content-section">
+                <h2>My Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2025 - Present</div>
+                        <div class="timeline-content">
+                            <h3>Computer Science Teaching Assistant & Tutor</h3>
+                            <h4>Brigham Young University | Hawaii USA</h4>
+                            <p>Helping approximately 35+ students/week to debug their codes. Worked closely with 5+ professors, assisting in grading and attending class.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2025</div>
+                        <div class="timeline-content">
+                            <h3>Tech Intern</h3>
+                            <h4>CAMP Investment Technologies | Singapore</h4>
+                            <p>Hands-on experience with the full Software Development Lifecycle (SDLC), improving product quality by proactively identifying bugs and UX issues. Developed a strong understanding of blockchain technology and cryptocurrency.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2020-2023</div>
+                        <div class="timeline-content">
+                            <h3>Digital Marketing & Systems Specialist</h3>
+                            <h4>itsbuah.com | Jakarta, Indonesia</h4>
+                            <p>Bridged technology and business that successfully accelerated company’s growth up to 250% within 6 months.Partnered with 5+ cross-functional teams in sales and marketing to deliver data-driven insights. </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="blogs" class="content-section">
+            <h2>Portofolios</h2>
+            <div class="portofolio-grid">
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img1.jpeg"></div>
+                        <h3 class="project-title">Jesus Christ</h3>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img2.jpeg"></div>
+                        <h3 class="project-title">Twin Peacock</h3>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img3.jpeg"></div>
+                        <h3 class="project-title">Purple Sunset</h3>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img4.jpeg"></div>
+                        <h3 class="project-title">Be You</h3>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img5.jpeg"></div>
+                        <h3 class="project-title">The Frog</h3>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-thumb"><img src="assets/img7.jpeg"></div>
+                        <h3 class="project-title">Dreamer Cat</h3>
+                    </article>
+            </div>
+            </section>
+            <section id="experience" class="content-section">
+                <h2>Peer Feedbacks</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Dec 2025</div>
+                        <div class="timeline-content">
+                            <h3>Aquima Catayoc</h3>
+                            <h4>Business Marketing Class</h4>
+                            <p>"I had the pleasure of working with Ayu on our JSlips advertising campaign project, and it was truly an outstanding experience. Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group."</p>
+                            <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">May 2025</div>
+                        <div class="timeline-content">
+                            <h3>Cynthia Uvang</h3>
+                            <h4>RFHD BYU-Hawaii</h4>
+                            <p>"You are a remarkable individual and I’m happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!"</p>
+                            <p></p>
+                            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7330472254042013696/">view it in LinkedIn</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Dec 2025</div>
+                        <div class="timeline-content">
+                            <h3>Julia Shih</h3>
+                            <h4>Business Marketing Class</h4>
+                            <p>"I have worked on a class project with Tika, and she consistently stands out for her positive attitude and strong teamwork. She is always eager to help others and readily steps in whenever support is needed. Tika completes tasks efficiently, thinks quickly on her feet, and approaches every situation with kindness and professionalism."</p>
+                            <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- quick nav down arrow from Experience to Projects -->
+            <div class="section-down-wrap">
+                <a href="#projects" class="cta-button section-down" aria-label="Go to Projects">↓</a>
+            </div>
+            <section id="projects" class="content-section">
+            <h2>Projects</h2>
+            <div class="project-grid">
+                <article class="project-card">
+                    <div class="project-thumb"><video><source src="/assets/battleship.mp4"></video></div>
+                    <h3 class="project-title">Battleshipwar Game</h3>
+                    <p class="project-desc">An mobile game interactive where I created all the assets by myself (game still on progress).</p>
+                    <div class="project-meta"><span class="tag">Java</span><span class="tag">Android Studio</span></div>
+                    <div class="project-links"><a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html">Play The Game</a> </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-thumb"><img src="/assets/web.png" alt="Project thumbnail"></div>
+                    <h3 class="project-title">Indonesian Culinary Website</h3>
+                    <p class="project-desc">A small website focused on Indonesian cuisine, provides recommendations and recipes.</p>
+                    <div class="project-meta"><span class="tag">HTML5</span><span class="tag">CSS3 & Javascript</span></div>
+                    <div class="project-links"><a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html">View</a> <a href="https://github.com/CS401W2018/projects-ayuningtyaskartikas/tree/main/final/indonesia-culinary">Source</a></div>
+                </article>
+                <article class="project-card">
+                    <div class="project-thumb"><img src="/assets/student.png" alt="Project thumbnail"></div>
+                    <h3 class="project-title">Student Videos</h3>
+                    <p class="project-desc">Videos project for the Southeast Asia Conference.</p>
+                    <div class="project-meta"><span class="tag">Business</span><span class="tag">Prototype</span></div>
+                    <div class="project-links"><a href="https://bg.byuh.edu/student-videos">View</a>
+                </article>
+            </div>
+            </section>
+            </section>
+                <!-- quick nav down arrow from Projects to Contact -->
+                <div class="section-down-wrap">
+                    <a href="#elevator-pitch" class="cta-button section-down" aria-label="SeE Elevator Pitch">↓</a>
+                </div>
+
+                <section id="elevator-pitch" class="content-section">
+                    <h2>Elevator Pitch</h2>
+                    <p class="contact-text">Aloha, I’m Ayu from Indonesia, a sophomore at Brigham Young University of Hawaii, majoring in Computer Science, with a minor in Marketing and Visual Arts. My journey began in marketing and sales, where I spent nearly three years working with a startup company in my home country. What started as a complete unknown for me became a passion, and my ability to quickly adapt helped me succeed. Currently I am working on campus as Teaching Assistant and Tutor for Computer Science Department, where I'm learning valuable skills that helped me to improve my problem-solving skills and critical thinking. I’m excited about leveraging my skills in tech industry. Driven by a passion for technology and with unique blend of skills, I believe that I can bring a unique perspective and contribute to projects in a meaningful way. I’m excited to connect with like-minded individuals and help shape the future of innovation.</p>
+                </section>
+                <div class="section-down-wrap">
+                    <a href="#blogs" class="cta-button section-down" aria-label="Go to Blogs">↓</a>
+                </div>
+            <section id="blogs" class="content-section">
+            <h2>Blogs & Case Studies</h2>
+            <div class="project-grid">
+                    <article class="project-card">
+                    <div class="project-thumb"><img src="assets/linkedinlearning.jpeg"></div>
+                    <h3 class="project-title">LinkedIn Learning</h3>
+                    <p class="project-desc">See Courses that I have completed through LinkedIn Learning:</p>
+                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713?u=2153100&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BXPebhHByTF2VQwICrIP3Cw%3D%3D">Content Marketing Foundations</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db?u=2153100">Digital Marketing Foundations</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b?u=2153100">SEO Foundations</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e?u=2153100">AI : Machine Learning</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/393a5b0d5396d407b0130746e7e0de614314d5c07629d17b14be7ca895d7b3fa?u=2153100">Marketing Foundations : E-commerce</a></p>
+                    </article>
+                <article class="project-card">
+                    <div class="project-thumb"><img src="/assets/nikee.jpeg" alt="Project thumbnail"></div>
+                    <h3 class="project-title">Personal Reflections Posts</h3>
+                    <p class="project-desc">Check my personal reflections posts in my LinkedIn here :</p>
+                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">What is Marketing?</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Customer Value</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Nike's Marketing Strategy</a></p>
+                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Pepsi VS Coca-Cola</a></p>
+                </article>
+            </div>
+            </section>
+            <!-- quick nav down arrow from Projects to Contact -->
+            <div class="section-down-wrap">
+                <a href="#contact" class="cta-button section-down" aria-label="Go to Contact">↓</a>
+            </div>
+
+            <section id="contact" class="content-section">
+                <h2>Get In Touch</h2>
+                <p class="contact-text">I am always open to discussing new projects, creative ideas, or opportunities to be part of an impactful vision. Feel free to reach out!</p>
+                <a href="mailto:ayunks27@go.byuh.edu" class="cta-button">Send Email to Me!</a>
+            </section>
+            <footer>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/ayunks/" target="_blank" aria-label="LinkedIn">
+                        <!-- LinkedIn SVG (inline for crispness) -->
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6.94 9.5H4.5V19H6.94V9.5ZM5.72 8.3C6.54 8.3 7.18 7.66 7.18 6.84C7.18 6.02 6.54 5.38 5.72 5.38C4.9 5.38 4.26 6.02 4.26 6.84C4.26 7.66 4.9 8.3 5.72 8.3ZM19 19H16.56V13.38C16.56 11.94 15.92 11 14.48 11C13.6 11 13.08 11.48 12.82 11.96C12.74 12.12 12.72 12.5 12.72 12.88V19H10.28V9.5H12.72V10.66C13.12 10.06 13.86 9.2 15.56 9.2C17.96 9.2 19 10.66 19 13.3V19Z" fill="#fff"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/ayuningtyaskartikas" target="_blank" aria-label="GitHub">
+                        <!-- GitHub Mark SVG -->
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.89.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.39.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.42.36.8 1.08.8 2.18 0 1.57-.01 2.83-.01 3.22 0 .31.2.68.8.56C20.71 21.38 24 17.08 24 12 24 5.73 18.27.5 12 .5z" fill="#fff"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="footer-text">&copy; 2025 Ayu Ningtyas Kartika Sari.</p>
+            </footer>
+        </div><!-- /.main -->
+    </div><!-- /.layout -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
     <script src="script.js"></script>
 </body>
