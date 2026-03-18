@@ -70,16 +70,7 @@ body::after {
   position:fixed; width:8px; height:8px; background:var(--taupe); border-radius:50%;
   pointer-events:none; z-index:9998; transform:translate(-50%,-50%); mix-blend-mode:screen;
 }
-#cur-label {
-  position:fixed; font-family:var(--f-grk); font-size:11px; font-weight:700;
-  letter-spacing:.08em; text-transform:uppercase; color:var(--bg); background:var(--taupe);
-  padding:5px 10px; border-radius:20px; pointer-events:none; z-index:9999;
-  transform:translate(-50%,-50%) scale(0);
-  transition:transform .25s var(--spring), opacity .2s; opacity:0; white-space:nowrap;
-}
 .trail-dot { position:fixed; border-radius:50%; pointer-events:none; z-index:9996; transform:translate(-50%,-50%) }
-body.cur-hover #cur-dot  { opacity:0 }
-body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
 
 .theme-switch {
   display:flex; align-items:center; gap:9px; cursor:none;
@@ -373,7 +364,6 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- CURSOR -->
 <div id="cur-dot"></div>
-<div id="cur-label"></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -386,7 +376,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme" data-cur="Theme">
+    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme">
       <span class="theme-switch-label" id="themeLabel">Light</span>
       <div class="switch-track"><div class="switch-thumb"></div></div>
     </button>
@@ -430,7 +420,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
       <div class="stat-cell"><span class="stat-n">3+</span><span class="stat-l" data-i18n="stat3">years industry</span></div>
       <div class="stat-cell"><span class="stat-n">4</span><span class="stat-l" data-i18n="stat4">countries collab'd</span></div>
     </div>
-    <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn" data-cur="Download">
+    <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn">
       <span data-i18n="cv_btn">Get my CV</span>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -483,7 +473,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
   <div class="sec-row r"><span class="sec-num">03</span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
   <div id="proj-preview"></div>
   <div class="proj-list">
-    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video" data-cur="Play">
+    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video">
       <span class="proj-num">01</span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p1_cat">Featured · Game Development</div>
@@ -495,7 +485,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img" data-cur="View">
+    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img">
       <span class="proj-num">02</span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p2_cat">Web Design</div>
@@ -507,7 +497,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img" data-cur="View">
+    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img">
       <span class="proj-num">03</span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p3_cat">Media · Conference</div>
@@ -597,19 +587,19 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
       <p class="contact-sub" data-i18n="contact_sub">Open to UI/UX roles, front-end collaborations, and creative projects. Always happy to connect.</p>
     </div>
     <div class="contact-items r d1">
-      <a href="mailto:ayunks27@go.byuh.edu" class="contact-row" data-cur="Email">
+      <a href="mailto:ayunks27@go.byuh.edu" class="contact-row">
         <div><div class="contact-label" data-i18n="contact_email_lbl">Email</div><div class="contact-val">ayunks27@go.byuh.edu</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank" data-cur="Open">
+      <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank">
         <div><div class="contact-label">LinkedIn</div><div class="contact-val">@ayunks</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="https://github.com/ayuningtyaskartikas" class="contact-row" target="_blank" data-cur="Open">
+      <a href="https://github.com/ayuningtyaskartikas" class="contact-row" target="_blank">
         <div><div class="contact-label">GitHub</div><div class="contact-val">ayuningtyaskartikas</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-cur="Send" data-i18n="send_btn">Send me an email →</a>
+      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-i18n="send_btn">Send me an email →</a>
     </div>
   </div>
 </section>
@@ -639,12 +629,10 @@ function setTheme(theme) {
   updateThemeLabel();
 }
 
-// Toggle theme
 document.getElementById('themeBtn').addEventListener('click', () => {
   setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 });
 
-// Init on load
 (function init() {
   setTheme(currentTheme);
 })();
@@ -666,22 +654,12 @@ for (let i = 0; i < TRAIL_COUNT; i++) {
 }
 
 const curDot = document.getElementById('cur-dot');
-const curLbl = document.getElementById('cur-label');
 
 document.addEventListener('mousemove', e => {
   const x = e.clientX, y = e.clientY;
   curDot.style.left = x + 'px'; curDot.style.top  = y + 'px';
-  curLbl.style.left = x + 'px'; curLbl.style.top  = (y - 34) + 'px';
   trails.forEach(t => { t.style.left = x + 'px'; t.style.top = y + 'px'; });
 }, { passive: true });
-
-document.addEventListener('mousedown', () => document.body.classList.add('cur-click'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
-
-document.querySelectorAll('[data-cur]').forEach(el => {
-  el.addEventListener('mouseenter', () => { curLbl.textContent = el.dataset.cur; document.body.classList.add('cur-hover'); });
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cur-hover'));
-});
 
 /* ══════════════════════════════════════════
    MAGNETIC HERO NAME
