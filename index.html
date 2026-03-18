@@ -105,12 +105,9 @@ body::after {
 nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
   padding:22px 52px; display:flex; align-items:center; justify-content:space-between;
-  /* Always cover the very top — extend background above with a pseudo-element */
   transition:padding .3s var(--ease), background .3s, backdrop-filter .3s;
   background:var(--nav-bg);
 }
-
-/* This pseudo-element fills any sub-pixel gap between top:0 and the nav visually */
 nav::before {
   content:"";
   position:absolute;
@@ -118,7 +115,6 @@ nav::before {
   background:inherit;
   pointer-events:none;
 }
-
 nav.stuck {
   padding:14px 52px;
   background:var(--nav-bg-stuck);
@@ -248,7 +244,7 @@ nav.stuck {
 .proj-list { display:grid; gap:0 }
 .proj-item {
   display:grid; grid-template-columns:1fr auto; align-items:center; gap:20px;
-  padding:28px 0; border-bottom:1px solid var(--line); cursor:none;
+  padding:28px 0; border-bottom:1px solid var(--line); cursor:pointer;
   position:relative; overflow:hidden; transition:padding-left .3s var(--ease);
 }
 .proj-item::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(168,151,120,.05),transparent); opacity:0; transition:opacity .3s }
@@ -264,8 +260,10 @@ nav.stuck {
 .proj-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px }
 .proj-tags { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end }
 .proj-tag { font-size:10px; color:var(--sage); border:1px solid rgba(125,144,137,.18); padding:3px 9px; border-radius:2px }
-.proj-arrow { font-size:1.4rem; color:var(--taupe); transition:transform .3s var(--spring), color .2s; line-height:1 }
+
+.proj-arrow { font-size:1.4rem; color:var(--taupe); transition:transform .3s var(--spring), color .2s; line-height:1; position:relative; z-index:2; }
 .proj-item:hover .proj-arrow { transform:translate(6px,-4px); color:var(--sand) }
+
 #proj-preview {
   position:fixed; width:220px; height:140px; border-radius:6px; overflow:hidden;
   pointer-events:none; z-index:600; opacity:0; transform:scale(.9) rotate(-3deg);
@@ -376,7 +374,6 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
   .proj-item { grid-template-columns:1fr }
   .proj-right { align-items:flex-start; flex-direction:row; flex-wrap:wrap }
   #proj-preview { display:none }
-  .ctrl-btn { padding:7px 10px; font-size:10px }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important } }
 </style>
@@ -488,7 +485,8 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
   <div class="sec-row r"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
   <div id="proj-preview"></div>
   <div class="proj-list">
-    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video">
+
+    <div class="proj-item r" data-href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html" data-preview="/assets/battleship.mp4" data-preview-type="video">
       <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p1_cat">Featured · Game Development</div>
@@ -500,7 +498,21 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img">
+
+    <div class="proj-item r d1" data-href="https://laras-indonesia.web.app/" data-preview="/assets/web.png" data-preview-type="img">
+      <span class="proj-num"></span>
+      <div class="proj-left">
+        <div class="proj-cat" data-i18n="p2_cat">Web App</div>
+        <div class="proj-name" data-i18n="p2_name">LARAS Business Idea</div>
+        <div class="proj-desc" data-i18n="p2_desc">Premium Indonesian ritual self-care. Rooted in balance, designed for the urban woman.</div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-tags"><span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JS</span></div>
+        <a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" target="_blank" class="proj-arrow">↗</a>
+      </div>
+    </div>
+
+    <div class="proj-item r d1" data-href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" data-preview="/assets/web.png" data-preview-type="img">
       <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p2_cat">Web Design</div>
@@ -512,7 +524,8 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img">
+
+    <div class="proj-item r d2" data-href="https://bg.byuh.edu/student-videos" data-preview="/assets/student.png" data-preview-type="img">
       <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p3_cat">Media · Conference</div>
@@ -524,6 +537,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://bg.byuh.edu/student-videos" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -773,6 +787,16 @@ document.addEventListener('mousemove', e => {
   preview.style.left = (e.clientX + 24) + 'px';
   preview.style.top  = (e.clientY - 70) + 'px';
 }, { passive: true });
+
+/* ══════════════════════════════════════════
+   CLICKABLE PROJECT CARDS
+══════════════════════════════════════════ */
+document.querySelectorAll('.proj-item[data-href]').forEach(item => {
+  item.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    window.open(item.dataset.href, '_blank');
+  });
+});
 
 /* ══════════════════════════════════════════
    DRAG-TO-SCROLL ART GALLERY
