@@ -1,387 +1,824 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ayu Ningtyas Kartika Sari</title>
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ayu Ningtyas Kartika Sari</title>
+<link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root[data-theme="dark"] {
+  --bg:#0e1c19; --bg1:#152320; --bg2:#1c2e2a;
+  --sand:#d6cfc2; --taupe:#a89778; --sage:#7d9089; --cream:#ede8e0;
+  --muted:rgba(237,232,224,.5);
+  --line:rgba(237,232,224,.08);
+  --line2:rgba(168,151,120,.28);
+  --ticker-bg:var(--taupe);
+  --ticker-text:var(--bg);
+  --shadow:none;
+  --stat-bg:var(--bg1);
+  --fb-bg:var(--bg1);
+  --blog-bg:var(--bg1);
+  --contact-bg:var(--bg1);
+  --theme-icon:"☀️";
+}
+:root[data-theme="light"] {
+  --bg:#f5f0e8; --bg1:#ece6da; --bg2:#e2dbd0;
+  --sand:#3d2f1a; --taupe:#7a5c35; --sage:#4a6b60; --cream:#1a1208;
+  --muted:rgba(26,18,8,.55);
+  --line:rgba(26,18,8,.1);
+  --line2:rgba(122,92,53,.35);
+  --ticker-bg:#7a5c35;
+  --ticker-text:#f5f0e8;
+  --shadow:0 2px 24px rgba(0,0,0,.07);
+  --stat-bg:#ece6da;
+  --fb-bg:#ece6da;
+  --blog-bg:#ece6da;
+  --contact-bg:#ece6da;
+  --theme-icon:"🌙";
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
+html { scroll-behavior:smooth; overflow-x:hidden }
+body {
+  background:var(--bg); color:var(--cream); font-family:var(--f-mono); font-size:13px;
+  line-height:1.6; overflow-x:hidden; cursor:none;
+  transition:background .4s ease, color .4s ease;
+}
+a { color:inherit; text-decoration:none }
+img, video { display:block; max-width:100% }
+:root {
+  --f-ser:"Instrument Serif",Georgia,serif;
+  --f-grk:"Cabinet Grotesk",sans-serif;
+  --f-mono:"DM Mono",monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── GRAIN ── */
+body::after {
+  content:""; position:fixed; inset:0; z-index:9000; pointer-events:none; opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+/* ── CURSOR ── */
+#cur-dot {
+  position:fixed; width:8px; height:8px; background:var(--taupe); border-radius:50%;
+  pointer-events:none; z-index:9998; transform:translate(-50%,-50%); mix-blend-mode:screen;
+}
+#cur-label {
+  position:fixed; font-family:var(--f-grk); font-size:11px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--bg); background:var(--taupe);
+  padding:5px 10px; border-radius:20px; pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%) scale(0);
+  transition:transform .25s var(--spring), opacity .2s; opacity:0; white-space:nowrap;
+}
+.trail-dot { position:fixed; border-radius:50%; pointer-events:none; z-index:9996; transform:translate(-50%,-50%) }
+body.cur-hover #cur-dot  { opacity:0 }
+body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
+
+/* ── SCROLL PROGRESS ── */
+#scroll-bar {
+  position:fixed; top:0; left:0; height:2px; width:0%;
+  background:var(--taupe); z-index:9997; transition:background .4s;
+  transform-origin:left;
+}
+.theme-switch {
+  display:flex; align-items:center; gap:9px; cursor:none;
+  background:none; border:none; padding:0;
+}
+.theme-switch-label {
+  font-family:var(--f-grk); font-size:10px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  transition:color .3s; user-select:none;
+}
+.switch-track {
+  width:36px; height:20px; border-radius:20px;
+  border:1px solid rgba(168,151,120,.35);
+  background:rgba(168,151,120,.08);
+  position:relative; flex-shrink:0;
+  transition:background .35s, border-color .35s;
+}
+[data-theme="light"] .switch-track { background:#a89778; border-color:#a89778 }
+.switch-thumb {
+  position:absolute; top:3px; left:3px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--taupe);
+  transition:transform .35s var(--spring), background .35s;
+}
+[data-theme="light"] .switch-thumb { transform:translateX(16px); background:#fff }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  padding:22px 52px; display:flex; align-items:center; justify-content:space-between;
+  transition:padding .3s var(--ease), background .3s;
+}
+nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:blur(18px); border-bottom:1px solid var(--line) }
+[data-theme="light"] nav.stuck { background:rgba(245,240,232,.88) }
+.nav-mark { font-family:var(--f-ser); font-style:italic; font-size:1.1rem; color:var(--taupe); letter-spacing:.02em }
+.nav-links { list-style:none; display:flex; gap:36px }
+.nav-links a { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:inline-block; transition:color .2s }
+.nav-links a:hover { color:var(--cream) }
+.nav-right { display:flex; align-items:center; gap:16px }
+.nav-ham { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:none; padding:4px }
+.nav-ham span { display:block; width:22px; height:1.5px; background:var(--sand); transition:transform .3s, opacity .3s }
+.nav-ham.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg) }
+.nav-ham.open span:nth-child(2) { opacity:0 }
+.nav-ham.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg) }
+.mob-nav {
+  position:fixed; inset:0; z-index:490; background:var(--bg1);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+  opacity:0; pointer-events:none; transition:opacity .35s var(--ease), background .4s;
+}
+.mob-nav.open { opacity:1; pointer-events:all }
+.mob-nav a {
+  font-family:var(--f-ser); font-style:italic; font-size:clamp(2.2rem,7vw,3.8rem);
+  color:var(--sand); position:relative; overflow:hidden; display:inline-block;
+}
+.mob-nav a::after {
+  content:attr(data-text); position:absolute; top:0; left:0; color:var(--taupe);
+  clip-path:inset(0 100% 0 0); transition:clip-path .4s var(--ease);
+}
+.mob-nav a:hover::after { clip-path:inset(0 0% 0 0) }
+
+/* ── HERO ── */
+.hero { min-height:100svh; padding:120px 52px 80px; display:grid; grid-template-rows:1fr auto; position:relative; overflow:hidden }
+.hero-blob {
+  position:absolute; top:-10%; right:-5%; width:600px; height:600px;
+  background:radial-gradient(ellipse,rgba(168,151,120,.08) 0%,transparent 70%);
+  pointer-events:none; animation:blobbreathe 8s ease-in-out infinite;
+}
+@keyframes blobbreathe { 0%,100%{transform:scale(1) rotate(0deg)} 50%{transform:scale(1.08) rotate(6deg)} }
+
+.hero-tag {
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--taupe);
+  margin-bottom:28px; display:flex; align-items:center; gap:12px;
+  opacity:0; animation:fadein .6s .1s var(--ease) forwards;
+}
+.hero-tag::before { content:""; width:28px; height:1px; background:var(--taupe) }
+@keyframes fadein { to { opacity:1 } }
+
+.mag-row {
+  font-family:var(--f-ser); font-size:clamp(4.5rem,12vw,11rem);
+  font-weight:400; line-height:.92; letter-spacing:-.02em;
+  display:flex; flex-wrap:wrap; gap:0 .01em; margin-bottom:6px;
+  opacity:0; animation:fadein .6s var(--ease) forwards;
+}
+.mag-row.row1 { animation-delay:.2s }
+.mag-row.row2 { font-style:italic; color:var(--taupe); animation-delay:.35s }
+.mag-row.row3 { -webkit-text-stroke:1.5px rgba(237,232,224,.2); color:transparent; font-style:italic; animation-delay:.5s }
+[data-theme="light"] .mag-row.row3 { -webkit-text-stroke:1.5px rgba(26,18,8,.2) }
+.mag-ch { display:inline-block; cursor:none; transition:transform .35s var(--spring), color .2s }
+.mag-row.row2 .mag-ch:hover { color:var(--sand); -webkit-text-stroke:0 }
+.mag-row.row3 .mag-ch:hover { -webkit-text-stroke:1.5px rgba(237,232,224,.55) }
+[data-theme="light"] .mag-row.row3 .mag-ch:hover { -webkit-text-stroke:1.5px rgba(26,18,8,.55) }
+
+.hero-bottom {
+  display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  padding-top:40px; border-top:1px solid var(--line);
+  opacity:0; animation:fadein .7s .8s var(--ease) forwards;
+}
+.hero-desc { max-width:340px; color:var(--muted); font-size:13px; line-height:1.75 }
+.hero-desc strong { color:var(--sand); font-weight:400 }
+.scroll-line { width:1px; height:52px; background:linear-gradient(var(--taupe),transparent); animation:pulse 2.2s ease-in-out infinite }
+@keyframes pulse { 0%,100%{opacity:.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+
+/* ── TICKER ── */
+.ticker-outer { overflow:hidden; background:var(--ticker-bg); padding:11px 0; transform:skewY(-1.5deg); margin:0 -4px; transition:background .4s }
+.ticker-inner { display:flex; width:max-content; animation:tickscroll 22s linear infinite; transform:skewY(1.5deg) }
+.ticker-inner:hover { animation-play-state:paused }
+.t-item { font-family:var(--f-grk); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ticker-text); padding:0 28px; white-space:nowrap; transition:color .4s }
+.t-sep { color:rgba(14,28,25,.4); padding:0 4px }
+[data-theme="light"] .t-sep { color:rgba(245,240,232,.4) }
+@keyframes tickscroll { from{transform:skewY(1.5deg) translateX(0)} to{transform:skewY(1.5deg) translateX(-50%)} }
+
+/* ── SECTIONS ── */
+.sec { padding:100px 52px; border-top:1px solid var(--line) }
+.sec-row { display:flex; align-items:baseline; gap:14px; margin-bottom:56px }
+.sec-num { font-size:11px; color:var(--taupe); letter-spacing:.14em }
+.sec-title { font-family:var(--f-ser); font-style:italic; font-size:clamp(2.2rem,4vw,3.4rem); font-weight:400; color:var(--cream); letter-spacing:-.01em }
+
+/* ── ABOUT ── */
+#about.sec { display:grid; grid-template-columns:1fr 1.3fr; gap:80px; align-items:start }
+.about-sticky { position:sticky; top:100px }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:32px; transition:background .4s }
+.stat-cell { background:var(--stat-bg); padding:22px 20px; position:relative; overflow:hidden; transition:background .4s }
+.stat-cell::before { content:""; position:absolute; inset:0; background:var(--taupe); opacity:0; transition:opacity .3s }
+.stat-cell:hover::before { opacity:.06 }
+.stat-n { font-family:var(--f-ser); font-size:2.6rem; color:var(--sand); line-height:1; display:block }
+.stat-l { font-size:11px; color:var(--muted); margin-top:4px; display:block; letter-spacing:.05em }
+.cv-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--f-grk); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--bg); background:var(--taupe); padding:13px 22px; border-radius:4px; border:1.5px solid var(--taupe);
+  transition:background .2s, gap .25s var(--spring), transform .2s var(--spring); cursor:none;
+}
+.cv-btn:hover { background:var(--sand); gap:18px; transform:translateY(-3px) }
+.cv-btn svg { transition:transform .25s var(--spring) }
+.cv-btn:hover svg { transform:translateX(4px) }
+.about-body p { font-size:14px; color:var(--muted); line-height:1.85; margin-bottom:20px }
+.drop-cap::first-letter { font-family:var(--f-ser); font-size:4.5rem; font-style:italic; float:left; line-height:.72; margin-right:10px; margin-top:10px; color:var(--taupe) }
+.skill-chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:28px }
+.chip { font-size:11px; color:var(--sage); border:1px solid rgba(125,144,137,.22); padding:5px 13px; border-radius:20px; background:rgba(125,144,137,.04); transition:color .2s, border-color .2s, transform .2s var(--spring); cursor:none }
+.chip:hover { color:var(--cream); border-color:rgba(125,144,137,.5); transform:translateY(-2px) }
+
+/* ── JOURNEY ── */
+.journey-list { display:grid; gap:0 }
+.j-item { display:grid; grid-template-columns:160px 1fr; gap:0 40px; padding:32px 0; border-bottom:1px solid var(--line); position:relative; transition:padding-left .3s var(--ease) }
+.j-item::before { content:""; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--taupe); transform:scaleY(0); transform-origin:top; transition:transform .4s var(--ease) }
+.j-item:hover { padding-left:16px }
+.j-item:hover::before { transform:scaleY(1) }
+.j-date { font-size:11px; color:var(--taupe); letter-spacing:.1em; padding-top:4px }
+.j-role { font-family:var(--f-grk); font-size:15px; font-weight:700; color:var(--sand); margin-bottom:3px }
+.j-org { font-size:12px; color:var(--sage); letter-spacing:.05em; margin-bottom:10px }
+.j-desc { font-size:13px; color:var(--muted); line-height:1.7 }
+
+/* ── PROJECTS ── */
+.proj-list { display:grid; gap:0 }
+.proj-item {
+  display:grid; grid-template-columns:1fr auto; align-items:center; gap:20px;
+  padding:28px 0; border-bottom:1px solid var(--line); cursor:none;
+  position:relative; overflow:hidden; transition:padding-left .3s var(--ease);
+}
+.proj-item::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(168,151,120,.05),transparent); opacity:0; transition:opacity .3s }
+.proj-item:hover { padding-left:20px }
+.proj-item:hover::after { opacity:1 }
+.proj-num { position:absolute; left:0; font-size:11px; color:rgba(168,151,120,.3); letter-spacing:.1em; transition:color .2s }
+.proj-item:hover .proj-num { color:var(--taupe) }
+.proj-left { padding-left:32px }
+.proj-cat { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--taupe); margin-bottom:6px }
+.proj-name { font-family:var(--f-ser); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--cream); transition:color .2s }
+.proj-item:hover .proj-name { color:var(--sand) }
+.proj-desc { font-size:12px; color:var(--muted); margin-top:6px; max-width:520px; line-height:1.65 }
+.proj-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px }
+.proj-tags { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end }
+.proj-tag { font-size:10px; color:var(--sage); border:1px solid rgba(125,144,137,.18); padding:3px 9px; border-radius:2px }
+.proj-arrow { font-size:1.4rem; color:var(--taupe); transition:transform .3s var(--spring), color .2s; line-height:1 }
+.proj-item:hover .proj-arrow { transform:translate(6px,-4px); color:var(--sand) }
+#proj-preview {
+  position:fixed; width:220px; height:140px; border-radius:6px; overflow:hidden;
+  pointer-events:none; z-index:600; opacity:0; transform:scale(.9) rotate(-3deg);
+  transition:opacity .25s var(--ease), transform .3s var(--spring); border:1px solid var(--line2);
+}
+#proj-preview img, #proj-preview video { width:100%; height:100%; object-fit:cover }
+
+/* ── ART ── */
+.art-outer { overflow:hidden }
+.art-track {
+  display:flex; gap:12px; padding:0 52px 20px;
+  overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; cursor:grab;
+}
+.art-track:active { cursor:grabbing }
+.art-track::-webkit-scrollbar { display:none }
+.art-card { flex:0 0 280px; height:360px; border-radius:6px; overflow:hidden; position:relative; border:1px solid var(--line); scroll-snap-align:start }
+.art-card img { width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease), filter .4s }
+.art-card:hover img { transform:scale(1.06); filter:brightness(1.08) }
+.art-card-cap {
+  position:absolute; bottom:0; left:0; right:0; padding:40px 18px 18px;
+  background:linear-gradient(transparent,rgba(14,28,25,.9));
+  font-family:var(--f-grk); font-size:13px; font-weight:600; color:var(--sand); letter-spacing:.04em;
+  transform:translateY(6px); opacity:0; transition:opacity .3s, transform .3s var(--ease);
+}
+[data-theme="light"] .art-card-cap { background:linear-gradient(transparent,rgba(50,35,15,.85)) }
+.art-card:hover .art-card-cap { opacity:1; transform:translateY(0) }
+.drag-hint { padding:12px 52px 0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; margin-bottom:20px }
+.drag-hint::before { content:"←"; color:var(--taupe) }
+.drag-hint::after  { content:"→"; color:var(--taupe) }
+
+/* ── FEEDBACK ── */
+.fb-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
+.fb-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--fb-bg); transition:border-color .3s, transform .3s var(--ease), background .4s }
+.fb-card:hover { border-color:var(--line2); transform:translateY(-4px) }
+.fb-q { font-family:var(--f-ser); font-size:4rem; line-height:.6; color:var(--taupe); opacity:.3; margin-bottom:16px }
+.fb-text { font-size:13px; color:var(--muted); line-height:1.8; font-style:italic; margin-bottom:20px }
+.fb-author { border-top:1px solid var(--line); padding-top:16px }
+.fb-name { font-family:var(--f-grk); font-size:13px; font-weight:700; color:var(--sand) }
+.fb-ctx { font-size:11px; color:var(--muted); margin-top:2px; letter-spacing:.04em }
+.fb-date { font-size:10px; color:var(--taupe); margin-top:6px; letter-spacing:.1em }
+
+/* ── BLOGS ── */
+.blog-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.blog-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--blog-bg); transition:border-color .3s, transform .3s var(--ease), background .4s }
+.blog-card:hover { border-color:var(--line2); transform:translateY(-3px) }
+.blog-eyebrow { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--taupe); display:flex; align-items:center; gap:8px; margin-bottom:14px }
+.blog-eyebrow::before { content:""; width:18px; height:1px; background:var(--taupe) }
+.blog-title { font-family:var(--f-grk); font-size:17px; font-weight:700; color:var(--sand); margin-bottom:10px; line-height:1.3 }
+.blog-desc { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:20px }
+.blog-links { display:flex; flex-direction:column; gap:9px }
+.blog-link { font-size:12px; color:var(--sage); display:flex; align-items:center; gap:6px; transition:color .2s, gap .2s var(--spring) }
+.blog-link::before { content:"→"; color:var(--taupe); font-size:11px; flex-shrink:0 }
+.blog-link:hover { color:var(--cream); gap:10px }
+
+/* ── CONTACT ── */
+.contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center }
+.contact-hl { font-family:var(--f-ser); font-size:clamp(3rem,6vw,5.5rem); font-weight:400; line-height:1.05; color:var(--cream) }
+.contact-hl em { font-style:italic; color:var(--taupe) }
+.contact-sub { margin-top:18px; font-size:14px; color:var(--muted); line-height:1.7; max-width:380px }
+.contact-items { display:flex; flex-direction:column; gap:10px }
+.contact-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px; border:1px solid var(--line); border-radius:4px; background:var(--contact-bg);
+  transition:border-color .25s, transform .25s var(--spring), background .4s; cursor:none;
+}
+.contact-row:hover { border-color:var(--line2); transform:translateX(6px) }
+.contact-label { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--taupe); margin-bottom:3px }
+.contact-val { font-family:var(--f-grk); font-size:13px; font-weight:600; color:var(--sand) }
+.contact-arr { color:var(--taupe); font-size:1.2rem; transition:transform .25s var(--spring) }
+.contact-row:hover .contact-arr { transform:translateX(4px) }
+.send-btn {
+  display:block; text-align:center; background:var(--taupe); color:var(--bg);
+  font-family:var(--f-grk); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  padding:15px 22px; border-radius:4px; margin-top:10px;
+  transition:background .2s, transform .2s var(--spring); cursor:none;
+}
+.send-btn:hover { background:var(--sand); transform:translateY(-3px) }
+
+/* ── FOOTER ── */
+footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px }
+.foot-copy { font-size:11px; color:var(--muted) }
+.foot-links { display:flex; gap:24px }
+.foot-links a { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); transition:color .2s }
+.foot-links a:hover { color:var(--sand) }
+
+/* ── REVEAL ── */
+.r { opacity:0; transform:translateY(22px); transition:opacity .7s var(--ease), transform .7s var(--ease) }
+.r.d1 { transition-delay:.1s } .r.d2 { transition-delay:.2s } .r.d3 { transition-delay:.3s }
+.r.on { opacity:1; transform:translateY(0) }
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px) {
+  #about.sec { grid-template-columns:1fr; gap:40px }
+  .about-sticky { position:static }
+  .fb-grid { grid-template-columns:1fr }
+  .blog-grid { grid-template-columns:1fr }
+  .contact-wrap { grid-template-columns:1fr; gap:40px }
+}
+@media(max-width:768px) {
+  nav, nav.stuck { padding:16px 24px }
+  .nav-links { display:none } .nav-ham { display:flex }
+  .hero { padding:100px 24px 60px }
+  .sec { padding:80px 24px }
+  .art-track { padding:0 24px 20px }
+  .drag-hint { padding:12px 24px 0 }
+  footer { padding:24px }
+  .j-item { grid-template-columns:1fr; gap:6px }
+  .proj-item { grid-template-columns:1fr }
+  .proj-right { align-items:flex-start; flex-direction:row; flex-wrap:wrap }
+  #proj-preview { display:none }
+  .ctrl-btn { padding:7px 10px; font-size:10px }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important } }
+</style>
 </head>
 <body>
-    <canvas id="bg"></canvas>
-    <div class="layout">
-        <!-- Desktop sidebar -->
-        <aside class="sidebar" aria-label="Sidebar navigation">
-            <a href="#" class="side-logo" aria-label="Go to top">
-            <img src="/assets/logo.png" alt="Ayu logo" />
-            </a>
 
-            <div class="side-head">
-            <div class="side-name">Ayu Ningtyas</div>
-            <div class="side-words">
-                <span>Human</span><span class="dot">·</span>
-                <span>Tech</span><span class="dot">·</span>
-                <span>Clarity</span>
-            </div>
-            <p class="side-blurb">
-                UI/UX + dev who makes systems feel simpler for real people.
-            </p>
-            </div>
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-label"></div>
 
-            <nav class="side-nav" aria-label="Primary">
-            <a href="#about">About</a>
-            <a href="#experience">Journey</a>
-            <a href="#projects">Projects</a>
-            <a href="#blogs">Writing</a>
-            <a href="#contact">Contact</a>
-            </nav>
+<!-- SCROLL PROGRESS -->
+<div id="scroll-bar"></div>
 
-            <div class="side-foot">
-            <a class="side-btn" href="/assets/resume_ayu_sari.pdf" download>Download CV</a>
-            <div class="side-social">
-                <a href="https://www.linkedin.com/in/ayunks/" target="_blank" rel="noreferrer">LinkedIn</a>
-                <span class="dot">·</span>
-                <a href="https://github.com/ayuningtyaskartikas" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-            </div>
-        </aside>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#top"><img src="assets/logo.png" alt="Ayu Ningtyas" style="height:36px;width:auto;display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav_about">About</a></li>
+    <li><a href="#journey" data-i18n="nav_journey">Journey</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+    <li><a href="#art" data-i18n="nav_art">Art</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme" data-cur="Theme">
+      <span class="theme-switch-label" id="themeLabel">Light</span>
+      <div class="switch-track"><div class="switch-thumb"></div></div>
+    </button>
+    <button class="nav-ham" id="navHam" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
 
-        <!-- Main content -->
-        <div class="main">
-                <header class="site-header">
-                    <div class="header-inner">
-                        <a href="#" class="logo" aria-label="Ayu Ningtyas Kartika Sari logo">
-                            <img src="/assets/logo.png" alt="Ayu logo" class="logo-img" />
-                        </a>
-                        <nav class="main-nav">
-                                <a href="#about">About</a>
-                                <a href="#experience">Experience</a>
-                                <a href="#projects">Projects</a>
-                                <a href="#elevator-pitch">Elevator Pitch</a>
-                                <a href="#contact">Contact</a>
-                                <a href="#blogs">Blogs & Case Studies</a>
-                        </nav>
-                        <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation">
-                <span class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-                </button>
-            
-                    </div>
-                    <div id="reading-progress" aria-hidden="true"><div id="reading-progress-bar"></div></div>
-                </header>
+<!-- MOBILE NAV -->
+<nav class="mob-nav" id="mobNav">
+  <a href="#about"    data-text="About"    class="mob-link" data-i18n="nav_about">About</a>
+  <a href="#journey"  data-text="Journey"  class="mob-link" data-i18n="nav_journey">Journey</a>
+  <a href="#projects" data-text="Projects" class="mob-link" data-i18n="nav_projects">Projects</a>
+  <a href="#art"      data-text="Art"      class="mob-link" data-i18n="nav_art">Art</a>
+  <a href="#contact"  data-text="Contact"  class="mob-link" data-i18n="nav_contact">Contact</a>
+</nav>
 
-                        <!-- Mobile menu (hidden on desktop) -->
-                        <nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
-                            <div class="mobile-inner">
-                                <a href="#about">About</a>
-                                <a href="#experience">Experience</a>
-                                <a href="#projects">Projects</a>
-                                <a href="#contact">Contact</a>
-                                
-                            </div>
-                        </nav>
-                                <span id="menu-live" class="sr-only" aria-live="polite"></span>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div>
+    <p class="hero-tag" data-i18n="hero_tag">UI/UX Designer · Developer · Hawai'i</p>
+    <div class="mag-row row1" id="heroRow1" aria-label="Ayu"></div>
+    <div class="mag-row row2" id="heroRow2" aria-label="Ningtyas"></div>
+    <div class="mag-row row3" id="heroRow3" aria-label="Kartika Sari"></div>
+  </div>
+  <div class="hero-bottom">
+    <p class="hero-desc" data-i18n="hero_desc"><strong>Catalyst for growth</strong> — bridging human experience and technology. Making systems feel simpler for real people.</p>
+  </div>
+</section>
 
-                                    <main class="hero solo">
-                                        <div class="hero-inner">
-                                            <div class="hero-content">
-                                                <div class="hero-left">
-                                                    <h1 class="hero-title">Ayu Ningtyas Kartika Sari</h1>
+<!-- DIAGONAL STRIP -->
+<div class="ticker-outer" style="height:44px;"></div>
 
-                                                                <div class="brand">
-                                                                    <span class="brand-prefix">POLYMATHIC ·</span>
-                                                                    <div class="brand-tags">
-                                                                        <span class="tagline">SYSTEMS CATALYST ·</span>
-                                                                        <span class="separator">·</span>
-                                                                        <span class="tagline brand-prefix">GLOBAL COLLABORATOR ·</span>
-                                                                    </div>
-                                                                    <!-- keep the rotating typewriter hidden but available for animation/fallback -->
-                                                                    <div class="brand-rotator" aria-hidden="true">
-                                                                        <span class="typewriter sr-only" aria-hidden="false"></span><span class="cursor sr-only" aria-hidden="true">▍</span>
-                                                                        <span class="word sr-only">IMPACT-DRIVEN DEVELOPER</span>
-                                                                        <span class="word sr-only">GLOBAL COLLABORATOR</span>
-                                                                        <span class="word sr-only">CREATIVE PROBLEM-SOLVER</span>
-                                                                    </div>
-                                                                </div>
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="about-sticky r">
+    <div class="sec-row"><span class="sec-num">01</span><h2 class="sec-title" data-scramble data-i18n="sec_about">About me</h2></div>
+    <div class="stat-grid">
+      <div class="stat-cell"><span class="stat-n">35+</span><span class="stat-l" data-i18n="stat1">students/week</span></div>
+      <div class="stat-cell"><span class="stat-n">250%</span><span class="stat-l" data-i18n="stat2">company growth</span></div>
+      <div class="stat-cell"><span class="stat-n">3+</span><span class="stat-l" data-i18n="stat3">years industry</span></div>
+      <div class="stat-cell"><span class="stat-n">4</span><span class="stat-l" data-i18n="stat4">countries collab'd</span></div>
+    </div>
+    <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn" data-cur="Download">
+      <span data-i18n="cv_btn">Get my CV</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="about-body r d1">
+    <p class="drop-cap" data-i18n="about_p1">I'm a catalyst for growth, passionate about accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results.</p>
+    <p data-i18n="about_p2">My journey started in digital marketing and sales at a Jakarta startup — three years where I learned to bridge technology and human needs. That sharpened my eye for what makes products truly usable, not just functional.</p>
+    <p data-i18n="about_p3">Studying Computer Science at BYU–Hawai'i with minors in Marketing and Visual Arts, I bring a rare cross-disciplinary lens: I design with empathy, build with precision, and lead with curiosity.</p>
+    <div class="skill-chips">
+      <span class="chip">Figma</span><span class="chip">HTML & CSS</span><span class="chip">JavaScript</span>
+      <span class="chip">Java</span><span class="chip">Python</span><span class="chip">UX Research</span>
+      <span class="chip">Prototyping</span><span class="chip">Visual Arts</span><span class="chip">Android Studio</span>
+    </div>
+  </div>
+</section>
 
-                                                    <pre class="hero-code">const goal = &quot;Driven by Impact.&quot;;
-                            const focus = "Defined by Code.";</pre>
+<!-- JOURNEY -->
+<section id="journey" class="sec">
+  <div class="sec-row r"><span class="sec-num">02</span><h2 class="sec-title" data-scramble data-i18n="sec_journey">Journey</h2></div>
+  <div class="journey-list">
+    <div class="j-item r">
+      <div class="j-date" data-i18n="j1_date">2025 — Present</div>
+      <div class="j-right">
+        <div class="j-role" data-i18n="j1_role">CS Teaching Assistant & Tutor</div>
+        <div class="j-org" data-i18n="j1_org">Brigham Young University — Hawai'i, USA</div>
+        <div class="j-desc" data-i18n="j1_desc">Helping ~35+ students/week to debug code. Working closely with 5+ professors, assisting with grading and curriculum delivery.</div>
+      </div>
+    </div>
+    <div class="j-item r d1">
+      <div class="j-date" data-i18n="j2_date">2025</div>
+      <div class="j-right">
+        <div class="j-role" data-i18n="j2_role">Tech Intern</div>
+        <div class="j-org" data-i18n="j2_org">CAMP Investment Technologies — Singapore</div>
+        <div class="j-desc" data-i18n="j2_desc">Hands-on SDLC experience, improving product quality by identifying bugs and UX issues. Deep understanding of blockchain and cryptocurrency products.</div>
+      </div>
+    </div>
+    <div class="j-item r d2">
+      <div class="j-date" data-i18n="j3_date">2020 — 2023</div>
+      <div class="j-right">
+        <div class="j-role" data-i18n="j3_role">Digital Marketing & Systems Specialist</div>
+        <div class="j-org" data-i18n="j3_org">itsbuah.com — Jakarta, Indonesia</div>
+        <div class="j-desc" data-i18n="j3_desc">Bridged technology and business, accelerating company growth by 250% within 6 months. Partnered with 5+ cross-functional teams to deliver data-driven insights.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                                                    <div class="hero-actions">
-                                                        <a href="#about" class="cta-button cta-arrow" aria-label="Scroll to About">
-                                                            <span class="sr-only">Scroll to About</span>
-                                                            <span class="cta-arrow" aria-hidden="true">↓</span>
-                                                        </a>
-                                                    </div>
+<!-- PROJECTS -->
+<section id="projects" class="sec">
+  <div class="sec-row r"><span class="sec-num">03</span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
+  <div id="proj-preview"></div>
+  <div class="proj-list">
+    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video" data-cur="Play">
+      <span class="proj-num">01</span>
+      <div class="proj-left">
+        <div class="proj-cat" data-i18n="p1_cat">Featured · Game Development</div>
+        <div class="proj-name" data-i18n="p1_name">Battleship War Game</div>
+        <div class="proj-desc" data-i18n="p1_desc">Arcade-style web game with custom-built assets and sound. Built to feel simple, tactile, and satisfying.</div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-tags"><span class="proj-tag">JavaScript</span><span class="proj-tag">Canvas</span></div>
+        <a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html" target="_blank" class="proj-arrow">↗</a>
+      </div>
+    </div>
+    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img" data-cur="View">
+      <span class="proj-num">02</span>
+      <div class="proj-left">
+        <div class="proj-cat" data-i18n="p2_cat">Web Design</div>
+        <div class="proj-name" data-i18n="p2_name">Indonesian Culinary Website</div>
+        <div class="proj-desc" data-i18n="p2_desc">A cultural website celebrating Indonesian cuisine — recommendations, recipes, and an inviting UI.</div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-tags"><span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JS</span></div>
+        <a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" target="_blank" class="proj-arrow">↗</a>
+      </div>
+    </div>
+    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img" data-cur="View">
+      <span class="proj-num">03</span>
+      <div class="proj-left">
+        <div class="proj-cat" data-i18n="p3_cat">Media · Conference</div>
+        <div class="proj-name" data-i18n="p3_name">Student Videos</div>
+        <div class="proj-desc" data-i18n="p3_desc">Video project produced for the Southeast Asia Conference at BYU–Hawai'i.</div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-tags"><span class="proj-tag">Video</span><span class="proj-tag">Storytelling</span></div>
+        <a href="https://bg.byuh.edu/student-videos" target="_blank" class="proj-arrow">↗</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-                                                    <!-- Accessible live region updated by JS to announce changing brand word -->
-                                                    <span id="brand-live" class="sr-only" aria-live="polite"></span>
-                                                </div>
-                                            </div>
+<!-- ART -->
+<section id="art" class="sec" style="padding-bottom:0">
+  <div class="sec-row r" style="margin-bottom:28px"><span class="sec-num">04</span><h2 class="sec-title" data-scramble data-i18n="sec_art">Visual Art</h2></div>
+  <p class="drag-hint r" data-i18n="drag_hint">Drag to explore</p>
+</section>
+<div class="art-outer r">
+  <div class="art-track" id="artTrack">
+    <div class="art-card"><img src="assets/img1.jpeg" alt="Jesus Christ"  loading="lazy"><div class="art-card-cap">Jesus Christ</div></div>
+    <div class="art-card"><img src="assets/img2.jpeg" alt="Twin Peacock"  loading="lazy"><div class="art-card-cap">Twin Peacock</div></div>
+    <div class="art-card"><img src="assets/img3.jpeg" alt="Purple Sunset" loading="lazy"><div class="art-card-cap">Purple Sunset</div></div>
+    <div class="art-card"><img src="assets/img4.jpeg" alt="Be You"        loading="lazy"><div class="art-card-cap">Be You</div></div>
+    <div class="art-card"><img src="assets/img5.jpeg" alt="The Frog"      loading="lazy"><div class="art-card-cap">The Frog</div></div>
+    <div class="art-card"><img src="assets/img7.jpeg" alt="Dreamer Cat"   loading="lazy"><div class="art-card-cap">Dreamer Cat</div></div>
+  </div>
+</div>
 
-                                            <div class="hero-right">
-                                                <!-- decorative right column (profile shown in About section below) -->
-                                                <div class="hero-profile" aria-hidden="true"></div>
-                                            </div>
-                                        </div>
-                </main>
-                    <!-- Book-style reading overlay -->
-                    <div id="book-overlay" aria-hidden="true">
-                        <div class="book-wrapper">
-                            <div class="book-spread">
-                                <div class="page left-page" data-page-index="0">
-                                    <div class="page-inner"></div>
-                                </div>
-                                <div class="page right-page" data-page-index="1">
-                                    <div class="page-inner"></div>
-                                </div>
-                            </div>
-                            <div class="book-shadow"></div>
-                        </div>
-                    </div>
-                <section id="about" class="content-section">
-                    <h2>About Me</h2>
-                    <div class="about-container">
-                        <!-- moved personal image to the top of About for a clearer layout (desktop and mobile) -->
-                        <div class="about-text">
-                    <p>I'm a catalyst for growth, passionate in accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results. My experience with diversity has shaped me into a strong global collaborator, I am committed to building bridges and driving positive change for others.</p>
-                    <a href="/assets/resume_ayu_sari.pdf" class="cta-button" download>Get my CV</a>
-                </div>
-            </div>
-            </section>
+<!-- FEEDBACK -->
+<section id="feedback" class="sec">
+  <div class="sec-row r"><span class="sec-num">05</span><h2 class="sec-title" data-scramble data-i18n="sec_feedback">Peer Feedback</h2></div>
+  <div class="fb-grid">
+    <div class="fb-card r">
+      <div class="fb-q">"</div>
+      <p class="fb-text" data-i18n="fb1_text">Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group.</p>
+      <div class="fb-author"><div class="fb-name">Aquima Catayoc</div><div class="fb-ctx" data-i18n="fb1_ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
+    </div>
+    <div class="fb-card r d1">
+      <div class="fb-q">"</div>
+      <p class="fb-text" data-i18n="fb2_text">You are a remarkable individual and I'm happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!</p>
+      <div class="fb-author"><div class="fb-name">Cynthia Uvang</div><div class="fb-ctx">RFHD BYU–Hawaii</div><div class="fb-date">May 2025</div></div>
+    </div>
+    <div class="fb-card r d2">
+      <div class="fb-q">"</div>
+      <p class="fb-text" data-i18n="fb3_text">She consistently stands out for her positive attitude and strong teamwork. Always eager to help others — completing tasks efficiently and approaching every situation with kindness and professionalism.</p>
+      <div class="fb-author"><div class="fb-name">Julia Shih</div><div class="fb-ctx" data-i18n="fb3_ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
+    </div>
+  </div>
+</section>
 
-            <!-- quick nav down arrow from About to Experience -->
-            <div class="section-down-wrap">
-                <a href="#experience" class="cta-button section-down" aria-label="Go to My Journey">↓</a>
-            </div>
-            
-            <article class="project-card project-card--featured">
-                <div class="project-thumb">
-                    <video autoplay muted loop playsinline poster="/assets/web.png">
-                    <source src="/assets/battleship.mp4" type="video/mp4">
-                    </video>
-                    <span class="badge">Featured</span>
-                </div>
+<!-- BLOGS -->
+<section id="blogs" class="sec">
+  <div class="sec-row r"><span class="sec-num">06</span><h2 class="sec-title" data-scramble data-i18n="sec_writing">Writing</h2></div>
+  <div class="blog-grid">
+    <div class="blog-card r">
+      <p class="blog-eyebrow">LinkedIn Learning</p>
+      <h3 class="blog-title" data-i18n="blog1_title">Continuous Education</h3>
+      <p class="blog-desc" data-i18n="blog1_desc">Certifications spanning content marketing, SEO, e-commerce, and machine learning.</p>
+      <div class="blog-links">
+        <a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713" class="blog-link" target="_blank" data-i18n="blog1_l1">Content Marketing Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db" class="blog-link" target="_blank" data-i18n="blog1_l2">Digital Marketing Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b" class="blog-link" target="_blank" data-i18n="blog1_l3">SEO Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e" class="blog-link" target="_blank" data-i18n="blog1_l4">AI & Machine Learning</a>
+      </div>
+    </div>
+    <div class="blog-card r d1">
+      <p class="blog-eyebrow" data-i18n="blog2_eyebrow">Personal Reflections</p>
+      <h3 class="blog-title" data-i18n="blog2_title">Marketing & Business Writing</h3>
+      <p class="blog-desc" data-i18n="blog2_desc">Personal reflections on marketing strategy, consumer behavior, and brand thinking — on LinkedIn.</p>
+      <div class="blog-links">
+        <a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr" class="blog-link" target="_blank" data-i18n="blog2_l1">What is Marketing?</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil" class="blog-link" target="_blank" data-i18n="blog2_l2">Customer Value</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt" class="blog-link" target="_blank" data-i18n="blog2_l3">Nike's Marketing Strategy</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO" class="blog-link" target="_blank" data-i18n="blog2_l4">Pepsi VS Coca-Cola</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <div class="project-body">
-                    <h3 class="project-title">Battleship War Game</h3>
-                    <p class="project-desc">Arcade-style web game with custom assets + sound. Built to feel simple and satisfying.</p>
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="contact-wrap">
+    <div class="r">
+      <h2 class="contact-hl" data-i18n="contact_hl">Let's build<br>something<br><em>together.</em></h2>
+      <p class="contact-sub" data-i18n="contact_sub">Open to UI/UX roles, front-end collaborations, and creative projects. Always happy to connect.</p>
+    </div>
+    <div class="contact-items r d1">
+      <a href="mailto:ayunks27@go.byuh.edu" class="contact-row" data-cur="Email">
+        <div><div class="contact-label" data-i18n="contact_email_lbl">Email</div><div class="contact-val">ayunks27@go.byuh.edu</div></div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank" data-cur="Open">
+        <div><div class="contact-label">LinkedIn</div><div class="contact-val">@ayunks</div></div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a href="https://github.com/ayuningtyaskartikas" class="contact-row" target="_blank" data-cur="Open">
+        <div><div class="contact-label">GitHub</div><div class="contact-val">ayuningtyaskartikas</div></div>
+        <span class="contact-arr">→</span>
+      </a>
+      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-cur="Send" data-i18n="send_btn">Send me an email →</a>
+    </div>
+  </div>
+</section>
 
-                    <div class="project-meta">
-                    <span class="tag">Build with JavaScript,</span>
-                    <span class="tag">Canvas</span>
-                    <span class="tag">Game UI</span>
-                    </div>
+<!-- FOOTER -->
+<footer>
+  <p class="foot-copy" data-i18n="footer_copy">© 2025 Ayu Ningtyas Kartika Sari</p>
+  <div class="foot-links">
+    <a href="https://www.linkedin.com/in/ayunks/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/ayuningtyaskartikas" target="_blank">GitHub</a>
+    <a href="/assets/resume_ayu_sari.pdf" download data-i18n="footer_resume">Resume</a>
+  </div>
+</footer>
 
-                    <div class="project-links">
-                    <a class="link-primary" href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html">Play in Browser</a>
-                    </div>
+<script>
+let currentTheme = localStorage.getItem('ayu_theme') || 'dark';
 
-                </div>
-            </article>
+function updateThemeLabel() {
+  const isDark = currentTheme === 'dark';
+  document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
+}
 
+function setTheme(theme) {
+  currentTheme = theme;
+  localStorage.setItem('ayu_theme', theme);
+  document.documentElement.setAttribute('data-theme', theme);
+  updateThemeLabel();
+}
 
-            <section id="experience" class="content-section">
-                <h2>My Journey</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">2025 - Present</div>
-                        <div class="timeline-content">
-                            <h3>Computer Science Teaching Assistant & Tutor</h3>
-                            <h4>Brigham Young University | Hawaii USA</h4>
-                            <p>Helping approximately 35+ students/week to debug their codes. Worked closely with 5+ professors, assisting in grading and attending class.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">2025</div>
-                        <div class="timeline-content">
-                            <h3>Tech Intern</h3>
-                            <h4>CAMP Investment Technologies | Singapore</h4>
-                            <p>Hands-on experience with the full Software Development Lifecycle (SDLC), improving product quality by proactively identifying bugs and UX issues. Developed a strong understanding of blockchain technology and cryptocurrency.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">2020-2023</div>
-                        <div class="timeline-content">
-                            <h3>Digital Marketing & Systems Specialist</h3>
-                            <h4>itsbuah.com | Jakarta, Indonesia</h4>
-                            <p>Bridged technology and business that successfully accelerated company’s growth up to 250% within 6 months.Partnered with 5+ cross-functional teams in sales and marketing to deliver data-driven insights. </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="blogs" class="content-section">
-            <h2>Portofolios</h2>
-            <div class="portofolio-grid">
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img1.jpeg"></div>
-                        <h3 class="project-title">Jesus Christ</h3>
-                    </article>
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img2.jpeg"></div>
-                        <h3 class="project-title">Twin Peacock</h3>
-                    </article>
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img3.jpeg"></div>
-                        <h3 class="project-title">Purple Sunset</h3>
-                    </article>
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img4.jpeg"></div>
-                        <h3 class="project-title">Be You</h3>
-                    </article>
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img5.jpeg"></div>
-                        <h3 class="project-title">The Frog</h3>
-                    </article>
-                    <article class="project-card">
-                        <div class="project-thumb"><img src="assets/img7.jpeg"></div>
-                        <h3 class="project-title">Dreamer Cat</h3>
-                    </article>
-            </div>
-            </section>
-            <section id="experience" class="content-section">
-                <h2>Peer Feedbacks</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">Dec 2025</div>
-                        <div class="timeline-content">
-                            <h3>Aquima Catayoc</h3>
-                            <h4>Business Marketing Class</h4>
-                            <p>"I had the pleasure of working with Ayu on our JSlips advertising campaign project, and it was truly an outstanding experience. Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group."</p>
-                            <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">May 2025</div>
-                        <div class="timeline-content">
-                            <h3>Cynthia Uvang</h3>
-                            <h4>RFHD BYU-Hawaii</h4>
-                            <p>"You are a remarkable individual and I’m happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!"</p>
-                            <p></p>
-                            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7330472254042013696/">view it in LinkedIn</a>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-date">Dec 2025</div>
-                        <div class="timeline-content">
-                            <h3>Julia Shih</h3>
-                            <h4>Business Marketing Class</h4>
-                            <p>"I have worked on a class project with Tika, and she consistently stands out for her positive attitude and strong teamwork. She is always eager to help others and readily steps in whenever support is needed. Tika completes tasks efficiently, thinks quickly on her feet, and approaches every situation with kindness and professionalism."</p>
-                            <a href="https://www.linkedin.com/in/ayunks/details/recommendations/?detailScreenTabIndex=2">See More</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+// Toggle theme
+document.getElementById('themeBtn').addEventListener('click', () => {
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
 
-            <!-- quick nav down arrow from Experience to Projects -->
-            <div class="section-down-wrap">
-                <a href="#projects" class="cta-button section-down" aria-label="Go to Projects">↓</a>
-            </div>
-            <section id="projects" class="content-section">
-            <h2>Projects</h2>
-            <div class="project-grid">
-                <article class="project-card">
-                    <div class="project-thumb"><video><source src="/assets/battleship.mp4"></video></div>
-                    <h3 class="project-title">Battleshipwar Game</h3>
-                    <p class="project-desc">An mobile game interactive where I created all the assets by myself (game still on progress).</p>
-                    <div class="project-meta"><span class="tag">Java</span><span class="tag">Android Studio</span></div>
-                    <div class="project-links"><a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html">Play The Game</a> </div>
-                </article>
-                <article class="project-card">
-                    <div class="project-thumb"><img src="/assets/web.png" alt="Project thumbnail"></div>
-                    <h3 class="project-title">Indonesian Culinary Website</h3>
-                    <p class="project-desc">A small website focused on Indonesian cuisine, provides recommendations and recipes.</p>
-                    <div class="project-meta"><span class="tag">HTML5</span><span class="tag">CSS3 & Javascript</span></div>
-                    <div class="project-links"><a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html">View</a> <a href="https://github.com/CS401W2018/projects-ayuningtyaskartikas/tree/main/final/indonesia-culinary">Source</a></div>
-                </article>
-                <article class="project-card">
-                    <div class="project-thumb"><img src="/assets/student.png" alt="Project thumbnail"></div>
-                    <h3 class="project-title">Student Videos</h3>
-                    <p class="project-desc">Videos project for the Southeast Asia Conference.</p>
-                    <div class="project-meta"><span class="tag">Business</span><span class="tag">Prototype</span></div>
-                    <div class="project-links"><a href="https://bg.byuh.edu/student-videos">View</a>
-                </article>
-            </div>
-            </section>
-            </section>
-                <!-- quick nav down arrow from Projects to Contact -->
-                <div class="section-down-wrap">
-                    <a href="#elevator-pitch" class="cta-button section-down" aria-label="SeE Elevator Pitch">↓</a>
-                </div>
+// Init on load
+(function init() {
+  setTheme(currentTheme);
+})();
 
-                <section id="elevator-pitch" class="content-section">
-                    <h2>Elevator Pitch</h2>
-                    <p class="contact-text">Aloha, I’m Ayu from Indonesia, a sophomore at Brigham Young University of Hawaii, majoring in Computer Science, with a minor in Marketing and Visual Arts. My journey began in marketing and sales, where I spent nearly three years working with a startup company in my home country. What started as a complete unknown for me became a passion, and my ability to quickly adapt helped me succeed. Currently I am working on campus as Teaching Assistant and Tutor for Computer Science Department, where I'm learning valuable skills that helped me to improve my problem-solving skills and critical thinking. I’m excited about leveraging my skills in tech industry. Driven by a passion for technology and with unique blend of skills, I believe that I can bring a unique perspective and contribute to projects in a meaningful way. I’m excited to connect with like-minded individuals and help shape the future of innovation.</p>
-                </section>
-                <div class="section-down-wrap">
-                    <a href="#blogs" class="cta-button section-down" aria-label="Go to Blogs">↓</a>
-                </div>
-            <section id="blogs" class="content-section">
-            <h2>Blogs & Case Studies</h2>
-            <div class="project-grid">
-                    <article class="project-card">
-                    <div class="project-thumb"><img src="assets/linkedinlearning.jpeg"></div>
-                    <h3 class="project-title">LinkedIn Learning</h3>
-                    <p class="project-desc">See Courses that I have completed through LinkedIn Learning:</p>
-                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713?u=2153100&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BXPebhHByTF2VQwICrIP3Cw%3D%3D">Content Marketing Foundations</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db?u=2153100">Digital Marketing Foundations</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b?u=2153100">SEO Foundations</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e?u=2153100">AI : Machine Learning</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/learning/certificates/393a5b0d5396d407b0130746e7e0de614314d5c07629d17b14be7ca895d7b3fa?u=2153100">Marketing Foundations : E-commerce</a></p>
-                    </article>
-                <article class="project-card">
-                    <div class="project-thumb"><img src="/assets/nikee.jpeg" alt="Project thumbnail"></div>
-                    <h3 class="project-title">Personal Reflections Posts</h3>
-                    <p class="project-desc">Check my personal reflections posts in my LinkedIn here :</p>
-                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">What is Marketing?</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Customer Value</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Nike's Marketing Strategy</a></p>
-                    <p class="project-links"><a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO?utm_source=share&utm_medium=member_desktop&rcm=ACoAADOX524BBwoZSoePkQUiP1t3TxrdfA9kTYQ">Pepsi VS Coca-Cola</a></p>
-                </article>
-            </div>
-            </section>
-            <!-- quick nav down arrow from Projects to Contact -->
-            <div class="section-down-wrap">
-                <a href="#contact" class="cta-button section-down" aria-label="Go to Contact">↓</a>
-            </div>
+/* ══════════════════════════════════════════
+   TRAILING DOTS CURSOR
+══════════════════════════════════════════ */
+const TRAIL_COUNT = 10;
+const trails = [];
+for (let i = 0; i < TRAIL_COUNT; i++) {
+  const el = document.createElement('div');
+  el.className = 'trail-dot';
+  const size    = 3 + i * 2;
+  const opacity = 0.6 - i * 0.05;
+  const delay   = 0.02 + i * 0.03;
+  el.style.cssText = `width:${size}px;height:${size}px;background:rgba(168,151,120,${opacity.toFixed(2)});transition:left ${delay.toFixed(2)}s linear,top ${delay.toFixed(2)}s linear`;
+  document.body.appendChild(el);
+  trails.push(el);
+}
 
-            <section id="contact" class="content-section">
-                <h2>Get In Touch</h2>
-                <p class="contact-text">I am always open to discussing new projects, creative ideas, or opportunities to be part of an impactful vision. Feel free to reach out!</p>
-                <a href="mailto:ayunks27@go.byuh.edu" class="cta-button">Send Email to Me!</a>
-            </section>
-            <footer>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/ayunks/" target="_blank" aria-label="LinkedIn">
-                        <!-- LinkedIn SVG (inline for crispness) -->
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M6.94 9.5H4.5V19H6.94V9.5ZM5.72 8.3C6.54 8.3 7.18 7.66 7.18 6.84C7.18 6.02 6.54 5.38 5.72 5.38C4.9 5.38 4.26 6.02 4.26 6.84C4.26 7.66 4.9 8.3 5.72 8.3ZM19 19H16.56V13.38C16.56 11.94 15.92 11 14.48 11C13.6 11 13.08 11.48 12.82 11.96C12.74 12.12 12.72 12.5 12.72 12.88V19H10.28V9.5H12.72V10.66C13.12 10.06 13.86 9.2 15.56 9.2C17.96 9.2 19 10.66 19 13.3V19Z" fill="#fff"/>
-                        </svg>
-                    </a>
-                    <a href="https://github.com/ayuningtyaskartikas" target="_blank" aria-label="GitHub">
-                        <!-- GitHub Mark SVG -->
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.89.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.39.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.42.36.8 1.08.8 2.18 0 1.57-.01 2.83-.01 3.22 0 .31.2.68.8.56C20.71 21.38 24 17.08 24 12 24 5.73 18.27.5 12 .5z" fill="#fff"/>
-                        </svg>
-                    </a>
-                </div>
-                <p class="footer-text">&copy; 2025 Ayu Ningtyas Kartika Sari.</p>
-            </footer>
-        </div><!-- /.main -->
-    </div><!-- /.layout -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
-    <script src="script.js"></script>
+const curDot = document.getElementById('cur-dot');
+const curLbl = document.getElementById('cur-label');
+
+document.addEventListener('mousemove', e => {
+  const x = e.clientX, y = e.clientY;
+  curDot.style.left = x + 'px'; curDot.style.top  = y + 'px';
+  curLbl.style.left = x + 'px'; curLbl.style.top  = (y - 34) + 'px';
+  trails.forEach(t => { t.style.left = x + 'px'; t.style.top = y + 'px'; });
+}, { passive: true });
+
+document.addEventListener('mousedown', () => document.body.classList.add('cur-click'));
+document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
+
+document.querySelectorAll('[data-cur]').forEach(el => {
+  el.addEventListener('mouseenter', () => { curLbl.textContent = el.dataset.cur; document.body.classList.add('cur-hover'); });
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cur-hover'));
+});
+
+/* ══════════════════════════════════════════
+   MAGNETIC HERO NAME
+══════════════════════════════════════════ */
+function buildMagRow(id, text) {
+  const row = document.getElementById(id);
+  row.innerHTML = '';
+  text.split('').forEach(ch => {
+    const s = document.createElement('span');
+    s.className = 'mag-ch';
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+    if (ch === ' ') s.style.width = '.25em';
+    row.appendChild(s);
+    s.addEventListener('mousemove', e => {
+      const r  = s.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) * 0.45;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * 0.45;
+      s.style.transform = `translate(${dx}px,${dy}px) scale(1.15)`;
+    });
+    s.addEventListener('mouseleave', () => { s.style.transform = ''; });
+  });
+}
+buildMagRow('heroRow1', 'Ayu');
+buildMagRow('heroRow2', 'Ningtyas');
+buildMagRow('heroRow3', 'Kartika Sari');
+
+/* ── SCROLL PROGRESS BAR ── */
+const scrollBar = document.getElementById('scroll-bar');
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  scrollBar.style.width = pct + '%';
+}, { passive: true });
+
+/* ── NAV stuck ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('stuck', scrollY > 30), { passive: true });
+
+const ham = document.getElementById('navHam');
+const mob = document.getElementById('mobNav');
+ham.addEventListener('click', () => {
+  const open = mob.classList.toggle('open');
+  ham.classList.toggle('open', open);
+});
+mob.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', () => {
+  mob.classList.remove('open'); ham.classList.remove('open');
+}));
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => revealObs.observe(el));
+
+/* ══════════════════════════════════════════
+   TEXT SCRAMBLE on section headings
+══════════════════════════════════════════ */
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#';
+function scramble(el, targetOverride) {
+  const target = targetOverride || el.dataset.scramble || el.textContent;
+  let frame = 0; const TOTAL = 22;
+  if (el._scrambleId) clearInterval(el._scrambleId);
+  el._scrambleId = setInterval(() => {
+    el.textContent = target.split('').map((ch, i) => {
+      if (ch === ' ') return ' ';
+      if (frame / TOTAL > i / target.length) return ch;
+      return CHARS[Math.floor(Math.random() * CHARS.length)];
+    }).join('');
+    if (frame++ >= TOTAL) { el.textContent = target; clearInterval(el._scrambleId); }
+  }, 44);
+}
+const scrambleObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { scramble(e.target); scrambleObs.unobserve(e.target); } });
+}, { threshold: 0.3 });
+document.querySelectorAll('[data-scramble]').forEach(el => scrambleObs.observe(el));
+
+/* ══════════════════════════════════════════
+   PROJECT PREVIEW — follows cursor
+══════════════════════════════════════════ */
+const preview = document.getElementById('proj-preview');
+document.querySelectorAll('.proj-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    preview.innerHTML = '';
+    preview.style.opacity = '1';
+    preview.style.transform = 'scale(1) rotate(-1deg)';
+    const src = item.dataset.preview, type = item.dataset.previewType;
+    if (type === 'video') {
+      const v = document.createElement('video');
+      v.src = src; v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
+      preview.appendChild(v);
+    } else {
+      const img = document.createElement('img'); img.src = src; preview.appendChild(img);
+    }
+  });
+  item.addEventListener('mouseleave', () => {
+    preview.style.opacity = '0';
+    preview.style.transform = 'scale(.9) rotate(-3deg)';
+  });
+});
+document.addEventListener('mousemove', e => {
+  preview.style.left = (e.clientX + 24) + 'px';
+  preview.style.top  = (e.clientY - 70) + 'px';
+}, { passive: true });
+
+/* ══════════════════════════════════════════
+   DRAG-TO-SCROLL ART GALLERY
+══════════════════════════════════════════ */
+const track = document.getElementById('artTrack');
+let drag = false, startX = 0, scrollLeft = 0;
+track.addEventListener('mousedown', e => { drag = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; track.style.cursor = 'grabbing'; });
+document.addEventListener('mouseup', () => { drag = false; track.style.cursor = 'grab'; });
+track.addEventListener('mousemove', e => { if (!drag) return; track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.2; });
+let touchStartX = 0, touchScrollLeft = 0;
+track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; touchScrollLeft = track.scrollLeft; }, { passive: true });
+track.addEventListener('touchmove',  e => { track.scrollLeft = touchScrollLeft + (touchStartX - e.touches[0].clientX); }, { passive: true });
+
+/* ══════════════════════════════════════════
+   MAGNETIC NAV LINKS
+══════════════════════════════════════════ */
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('mousemove', e => {
+    const r = a.getBoundingClientRect();
+    a.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .35}px,${(e.clientY - r.top - r.height / 2) * .35}px)`;
+  });
+  a.addEventListener('mouseleave', () => { a.style.transform = ''; });
+});
+</script>
 </body>
 </html>

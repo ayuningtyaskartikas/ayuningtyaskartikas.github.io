@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,23 +10,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
-:root {
+:root[data-theme="dark"] {
   --bg:#0e1c19; --bg1:#152320; --bg2:#1c2e2a;
   --sand:#d6cfc2; --taupe:#a89778; --sage:#7d9089; --cream:#ede8e0;
   --muted:rgba(237,232,224,.5);
   --line:rgba(237,232,224,.08);
   --line2:rgba(168,151,120,.28);
+  --ticker-bg:var(--taupe);
+  --ticker-text:var(--bg);
+  --shadow:none;
+  --stat-bg:var(--bg1);
+  --fb-bg:var(--bg1);
+  --blog-bg:var(--bg1);
+  --contact-bg:var(--bg1);
+  --theme-icon:"☀️";
+}
+:root[data-theme="light"] {
+  --bg:#f5f0e8; --bg1:#ece6da; --bg2:#e2dbd0;
+  --sand:#3d2f1a; --taupe:#7a5c35; --sage:#4a6b60; --cream:#1a1208;
+  --muted:rgba(26,18,8,.55);
+  --line:rgba(26,18,8,.1);
+  --line2:rgba(122,92,53,.35);
+  --ticker-bg:#7a5c35;
+  --ticker-text:#f5f0e8;
+  --shadow:0 2px 24px rgba(0,0,0,.07);
+  --stat-bg:#ece6da;
+  --fb-bg:#ece6da;
+  --blog-bg:#ece6da;
+  --contact-bg:#ece6da;
+  --theme-icon:"🌙";
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
+html { scroll-behavior:smooth; overflow-x:hidden }
+body {
+  background:var(--bg); color:var(--cream); font-family:var(--f-mono); font-size:13px;
+  line-height:1.6; overflow-x:hidden; cursor:none;
+  transition:background .4s ease, color .4s ease;
+}
+a { color:inherit; text-decoration:none }
+img, video { display:block; max-width:100% }
+:root {
   --f-ser:"Instrument Serif",Georgia,serif;
   --f-grk:"Cabinet Grotesk",sans-serif;
   --f-mono:"DM Mono",monospace;
   --ease:cubic-bezier(.16,1,.3,1);
   --spring:cubic-bezier(.34,1.56,.64,1);
 }
-*,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-html { scroll-behavior:smooth; overflow-x:hidden }
-body { background:var(--bg); color:var(--cream); font-family:var(--f-mono); font-size:13px; line-height:1.6; overflow-x:hidden; cursor:none }
-a { color:inherit; text-decoration:none }
-img, video { display:block; max-width:100% }
 
 /* ── GRAIN ── */
 body::after {
@@ -51,6 +81,37 @@ body::after {
 body.cur-hover #cur-dot  { opacity:0 }
 body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
 
+/* ── SCROLL PROGRESS ── */
+#scroll-bar {
+  position:fixed; top:0; left:0; height:2px; width:0%;
+  background:var(--taupe); z-index:9997; transition:background .4s;
+  transform-origin:left;
+}
+.theme-switch {
+  display:flex; align-items:center; gap:9px; cursor:none;
+  background:none; border:none; padding:0;
+}
+.theme-switch-label {
+  font-family:var(--f-grk); font-size:10px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  transition:color .3s; user-select:none;
+}
+.switch-track {
+  width:36px; height:20px; border-radius:20px;
+  border:1px solid rgba(168,151,120,.35);
+  background:rgba(168,151,120,.08);
+  position:relative; flex-shrink:0;
+  transition:background .35s, border-color .35s;
+}
+[data-theme="light"] .switch-track { background:#a89778; border-color:#a89778 }
+.switch-thumb {
+  position:absolute; top:3px; left:3px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--taupe);
+  transition:transform .35s var(--spring), background .35s;
+}
+[data-theme="light"] .switch-thumb { transform:translateX(16px); background:#fff }
+
 /* ── NAV ── */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
@@ -58,10 +119,12 @@ nav {
   transition:padding .3s var(--ease), background .3s;
 }
 nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:blur(18px); border-bottom:1px solid var(--line) }
+[data-theme="light"] nav.stuck { background:rgba(245,240,232,.88) }
 .nav-mark { font-family:var(--f-ser); font-style:italic; font-size:1.1rem; color:var(--taupe); letter-spacing:.02em }
 .nav-links { list-style:none; display:flex; gap:36px }
 .nav-links a { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:inline-block; transition:color .2s }
 .nav-links a:hover { color:var(--cream) }
+.nav-right { display:flex; align-items:center; gap:16px }
 .nav-ham { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:none; padding:4px }
 .nav-ham span { display:block; width:22px; height:1.5px; background:var(--sand); transition:transform .3s, opacity .3s }
 .nav-ham.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg) }
@@ -70,7 +133,7 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 .mob-nav {
   position:fixed; inset:0; z-index:490; background:var(--bg1);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
-  opacity:0; pointer-events:none; transition:opacity .35s var(--ease);
+  opacity:0; pointer-events:none; transition:opacity .35s var(--ease), background .4s;
 }
 .mob-nav.open { opacity:1; pointer-events:all }
 .mob-nav a {
@@ -100,7 +163,6 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 .hero-tag::before { content:""; width:28px; height:1px; background:var(--taupe) }
 @keyframes fadein { to { opacity:1 } }
 
-/* magnetic name rows */
 .mag-row {
   font-family:var(--f-ser); font-size:clamp(4.5rem,12vw,11rem);
   font-weight:400; line-height:.92; letter-spacing:-.02em;
@@ -110,9 +172,11 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 .mag-row.row1 { animation-delay:.2s }
 .mag-row.row2 { font-style:italic; color:var(--taupe); animation-delay:.35s }
 .mag-row.row3 { -webkit-text-stroke:1.5px rgba(237,232,224,.2); color:transparent; font-style:italic; animation-delay:.5s }
+[data-theme="light"] .mag-row.row3 { -webkit-text-stroke:1.5px rgba(26,18,8,.2) }
 .mag-ch { display:inline-block; cursor:none; transition:transform .35s var(--spring), color .2s }
 .mag-row.row2 .mag-ch:hover { color:var(--sand); -webkit-text-stroke:0 }
 .mag-row.row3 .mag-ch:hover { -webkit-text-stroke:1.5px rgba(237,232,224,.55) }
+[data-theme="light"] .mag-row.row3 .mag-ch:hover { -webkit-text-stroke:1.5px rgba(26,18,8,.55) }
 
 .hero-bottom {
   display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap;
@@ -121,21 +185,16 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 }
 .hero-desc { max-width:340px; color:var(--muted); font-size:13px; line-height:1.75 }
 .hero-desc strong { color:var(--sand); font-weight:400 }
-.hero-scroll-cta {
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-  color:var(--muted); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-  cursor:none; transition:color .2s;
-}
-.hero-scroll-cta:hover { color:var(--sand) }
 .scroll-line { width:1px; height:52px; background:linear-gradient(var(--taupe),transparent); animation:pulse 2.2s ease-in-out infinite }
 @keyframes pulse { 0%,100%{opacity:.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
 
 /* ── TICKER ── */
-.ticker-outer { overflow:hidden; background:var(--taupe); padding:11px 0; transform:skewY(-1.5deg); margin:0 -4px }
+.ticker-outer { overflow:hidden; background:var(--ticker-bg); padding:11px 0; transform:skewY(-1.5deg); margin:0 -4px; transition:background .4s }
 .ticker-inner { display:flex; width:max-content; animation:tickscroll 22s linear infinite; transform:skewY(1.5deg) }
 .ticker-inner:hover { animation-play-state:paused }
-.t-item { font-family:var(--f-grk); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--bg); padding:0 28px; white-space:nowrap }
+.t-item { font-family:var(--f-grk); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ticker-text); padding:0 28px; white-space:nowrap; transition:color .4s }
 .t-sep { color:rgba(14,28,25,.4); padding:0 4px }
+[data-theme="light"] .t-sep { color:rgba(245,240,232,.4) }
 @keyframes tickscroll { from{transform:skewY(1.5deg) translateX(0)} to{transform:skewY(1.5deg) translateX(-50%)} }
 
 /* ── SECTIONS ── */
@@ -147,8 +206,8 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 /* ── ABOUT ── */
 #about.sec { display:grid; grid-template-columns:1fr 1.3fr; gap:80px; align-items:start }
 .about-sticky { position:sticky; top:100px }
-.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:32px }
-.stat-cell { background:var(--bg1); padding:22px 20px; position:relative; overflow:hidden }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:32px; transition:background .4s }
+.stat-cell { background:var(--stat-bg); padding:22px 20px; position:relative; overflow:hidden; transition:background .4s }
 .stat-cell::before { content:""; position:absolute; inset:0; background:var(--taupe); opacity:0; transition:opacity .3s }
 .stat-cell:hover::before { opacity:.06 }
 .stat-n { font-family:var(--f-ser); font-size:2.6rem; color:var(--sand); line-height:1; display:block }
@@ -162,7 +221,7 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 .cv-btn:hover { background:var(--sand); gap:18px; transform:translateY(-3px) }
 .cv-btn svg { transition:transform .25s var(--spring) }
 .cv-btn:hover svg { transform:translateX(4px) }
-.about-body p { font-size:14px; color:rgba(237,232,224,.78); line-height:1.85; margin-bottom:20px }
+.about-body p { font-size:14px; color:var(--muted); line-height:1.85; margin-bottom:20px }
 .drop-cap::first-letter { font-family:var(--f-ser); font-size:4.5rem; font-style:italic; float:left; line-height:.72; margin-right:10px; margin-top:10px; color:var(--taupe) }
 .skill-chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:28px }
 .chip { font-size:11px; color:var(--sage); border:1px solid rgba(125,144,137,.22); padding:5px 13px; border-radius:20px; background:rgba(125,144,137,.04); transition:color .2s, border-color .2s, transform .2s var(--spring); cursor:none }
@@ -225,6 +284,7 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
   font-family:var(--f-grk); font-size:13px; font-weight:600; color:var(--sand); letter-spacing:.04em;
   transform:translateY(6px); opacity:0; transition:opacity .3s, transform .3s var(--ease);
 }
+[data-theme="light"] .art-card-cap { background:linear-gradient(transparent,rgba(50,35,15,.85)) }
 .art-card:hover .art-card-cap { opacity:1; transform:translateY(0) }
 .drag-hint { padding:12px 52px 0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; margin-bottom:20px }
 .drag-hint::before { content:"←"; color:var(--taupe) }
@@ -232,10 +292,10 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 
 /* ── FEEDBACK ── */
 .fb-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
-.fb-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--bg1); transition:border-color .3s, transform .3s var(--ease) }
+.fb-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--fb-bg); transition:border-color .3s, transform .3s var(--ease), background .4s }
 .fb-card:hover { border-color:var(--line2); transform:translateY(-4px) }
 .fb-q { font-family:var(--f-ser); font-size:4rem; line-height:.6; color:var(--taupe); opacity:.3; margin-bottom:16px }
-.fb-text { font-size:13px; color:rgba(237,232,224,.72); line-height:1.8; font-style:italic; margin-bottom:20px }
+.fb-text { font-size:13px; color:var(--muted); line-height:1.8; font-style:italic; margin-bottom:20px }
 .fb-author { border-top:1px solid var(--line); padding-top:16px }
 .fb-name { font-family:var(--f-grk); font-size:13px; font-weight:700; color:var(--sand) }
 .fb-ctx { font-size:11px; color:var(--muted); margin-top:2px; letter-spacing:.04em }
@@ -243,7 +303,7 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 
 /* ── BLOGS ── */
 .blog-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
-.blog-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--bg1); transition:border-color .3s, transform .3s var(--ease) }
+.blog-card { border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--blog-bg); transition:border-color .3s, transform .3s var(--ease), background .4s }
 .blog-card:hover { border-color:var(--line2); transform:translateY(-3px) }
 .blog-eyebrow { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--taupe); display:flex; align-items:center; gap:8px; margin-bottom:14px }
 .blog-eyebrow::before { content:""; width:18px; height:1px; background:var(--taupe) }
@@ -262,8 +322,8 @@ nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:bl
 .contact-items { display:flex; flex-direction:column; gap:10px }
 .contact-row {
   display:flex; align-items:center; justify-content:space-between;
-  padding:16px 22px; border:1px solid var(--line); border-radius:4px; background:var(--bg1);
-  transition:border-color .25s, transform .25s var(--spring); cursor:none;
+  padding:16px 22px; border:1px solid var(--line); border-radius:4px; background:var(--contact-bg);
+  transition:border-color .25s, transform .25s var(--spring), background .4s; cursor:none;
 }
 .contact-row:hover { border-color:var(--line2); transform:translateX(6px) }
 .contact-label { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--taupe); margin-bottom:3px }
@@ -310,6 +370,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
   .proj-item { grid-template-columns:1fr }
   .proj-right { align-items:flex-start; flex-direction:row; flex-wrap:wrap }
   #proj-preview { display:none }
+  .ctrl-btn { padding:7px 10px; font-size:10px }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important } }
 </style>
@@ -320,102 +381,107 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 <div id="cur-dot"></div>
 <div id="cur-label"></div>
 
+<!-- SCROLL PROGRESS -->
+<div id="scroll-bar"></div>
+
 <!-- NAV -->
 <nav id="nav">
   <a href="#top"><img src="assets/logo.png" alt="Ayu Ningtyas" style="height:36px;width:auto;display:block;"></a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#journey">Journey</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#art">Art</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about" data-i18n="nav_about">About</a></li>
+    <li><a href="#journey" data-i18n="nav_journey">Journey</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+    <li><a href="#art" data-i18n="nav_art">Art</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
-  <button class="nav-ham" id="navHam" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div class="nav-right">
+    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme" data-cur="Theme">
+      <span class="theme-switch-label" id="themeLabel">Light</span>
+      <div class="switch-track"><div class="switch-thumb"></div></div>
+    </button>
+    <button class="nav-ham" id="navHam" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 
 <!-- MOBILE NAV -->
 <nav class="mob-nav" id="mobNav">
-  <a href="#about"    data-text="About"    class="mob-link">About</a>
-  <a href="#journey"  data-text="Journey"  class="mob-link">Journey</a>
-  <a href="#projects" data-text="Projects" class="mob-link">Projects</a>
-  <a href="#art"      data-text="Art"      class="mob-link">Art</a>
-  <a href="#contact"  data-text="Contact"  class="mob-link">Contact</a>
+  <a href="#about"    data-text="About"    class="mob-link" data-i18n="nav_about">About</a>
+  <a href="#journey"  data-text="Journey"  class="mob-link" data-i18n="nav_journey">Journey</a>
+  <a href="#projects" data-text="Projects" class="mob-link" data-i18n="nav_projects">Projects</a>
+  <a href="#art"      data-text="Art"      class="mob-link" data-i18n="nav_art">Art</a>
+  <a href="#contact"  data-text="Contact"  class="mob-link" data-i18n="nav_contact">Contact</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-blob" aria-hidden="true"></div>
   <div>
-    <p class="hero-tag">UI/UX Designer · Developer · Hawai'i</p>
+    <p class="hero-tag" data-i18n="hero_tag">UI/UX Designer · Developer · Hawai'i</p>
     <div class="mag-row row1" id="heroRow1" aria-label="Ayu"></div>
     <div class="mag-row row2" id="heroRow2" aria-label="Ningtyas"></div>
     <div class="mag-row row3" id="heroRow3" aria-label="Kartika Sari"></div>
   </div>
   <div class="hero-bottom">
-    <p class="hero-desc"><strong>Catalyst for growth</strong> — bridging human experience and technology. Making systems feel simpler for real people.</p>
-
+    <p class="hero-desc" data-i18n="hero_desc"><strong>Catalyst for growth</strong> — bridging human experience and technology. Making systems feel simpler for real people.</p>
   </div>
 </section>
+
+<!-- DIAGONAL STRIP -->
+<div class="ticker-outer" style="height:44px;"></div>
 
 <!-- ABOUT -->
 <section id="about" class="sec">
   <div class="about-sticky r">
-    <div class="sec-row"><span class="sec-num">01</span><h2 class="sec-title" data-scramble="About me">About me</h2></div>
+    <div class="sec-row"><span class="sec-num">01</span><h2 class="sec-title" data-scramble data-i18n="sec_about">About me</h2></div>
     <div class="stat-grid">
-      <div class="stat-cell"><span class="stat-n">35+</span><span class="stat-l">students/week</span></div>
-      <div class="stat-cell"><span class="stat-n">250%</span><span class="stat-l">company growth</span></div>
-      <div class="stat-cell"><span class="stat-n">3+</span><span class="stat-l">years industry</span></div>
-      <div class="stat-cell"><span class="stat-n">4</span><span class="stat-l">countries collab'd</span></div>
+      <div class="stat-cell"><span class="stat-n">35+</span><span class="stat-l" data-i18n="stat1">students/week</span></div>
+      <div class="stat-cell"><span class="stat-n">250%</span><span class="stat-l" data-i18n="stat2">company growth</span></div>
+      <div class="stat-cell"><span class="stat-n">3+</span><span class="stat-l" data-i18n="stat3">years industry</span></div>
+      <div class="stat-cell"><span class="stat-n">4</span><span class="stat-l" data-i18n="stat4">countries collab'd</span></div>
     </div>
     <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn" data-cur="Download">
-      Get my CV
+      <span data-i18n="cv_btn">Get my CV</span>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
   <div class="about-body r d1">
-    <p class="drop-cap">I'm a catalyst for growth, passionate about accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results.</p>
-    <p>My journey started in digital marketing and sales at a Jakarta startup — three years where I learned to bridge technology and human needs. That sharpened my eye for what makes products truly usable, not just functional.</p>
-    <p>Studying Computer Science at BYU–Hawai'i with minors in Marketing and Visual Arts, I bring a rare cross-disciplinary lens: I design with empathy, build with precision, and lead with curiosity.</p>
+    <p class="drop-cap" data-i18n="about_p1">I'm a catalyst for growth, passionate about accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results.</p>
+    <p data-i18n="about_p2">My journey started in digital marketing and sales at a Jakarta startup — three years where I learned to bridge technology and human needs. That sharpened my eye for what makes products truly usable, not just functional.</p>
+    <p data-i18n="about_p3">Studying Computer Science at BYU–Hawai'i with minors in Marketing and Visual Arts, I bring a rare cross-disciplinary lens: I design with empathy, build with precision, and lead with curiosity.</p>
     <div class="skill-chips">
-      <span class="chip">Figma</span>
-      <span class="chip">HTML & CSS</span>
-      <span class="chip">JavaScript</span>
-      <span class="chip">Java</span>
-      <span class="chip">Python</span>
-      <span class="chip">UX Research</span>
-      <span class="chip">Prototyping</span>
-      <span class="chip">Visual Arts</span>
-      <span class="chip">Android Studio</span>
+      <span class="chip">Figma</span><span class="chip">HTML & CSS</span><span class="chip">JavaScript</span>
+      <span class="chip">Java</span><span class="chip">Python</span><span class="chip">UX Research</span>
+      <span class="chip">Prototyping</span><span class="chip">Visual Arts</span><span class="chip">Android Studio</span>
     </div>
   </div>
 </section>
 
 <!-- JOURNEY -->
 <section id="journey" class="sec">
-  <div class="sec-row r"><span class="sec-num">02</span><h2 class="sec-title" data-scramble="Journey">Journey</h2></div>
+  <div class="sec-row r"><span class="sec-num">02</span><h2 class="sec-title" data-scramble data-i18n="sec_journey">Journey</h2></div>
   <div class="journey-list">
     <div class="j-item r">
-      <div class="j-date">2025 — Present</div>
+      <div class="j-date" data-i18n="j1_date">2025 — Present</div>
       <div class="j-right">
-        <div class="j-role">CS Teaching Assistant & Tutor</div>
-        <div class="j-org">Brigham Young University — Hawai'i, USA</div>
-        <div class="j-desc">Helping ~35+ students/week to debug code. Working closely with 5+ professors, assisting with grading and curriculum delivery.</div>
+        <div class="j-role" data-i18n="j1_role">CS Teaching Assistant & Tutor</div>
+        <div class="j-org" data-i18n="j1_org">Brigham Young University — Hawai'i, USA</div>
+        <div class="j-desc" data-i18n="j1_desc">Helping ~35+ students/week to debug code. Working closely with 5+ professors, assisting with grading and curriculum delivery.</div>
       </div>
     </div>
     <div class="j-item r d1">
-      <div class="j-date">2025</div>
+      <div class="j-date" data-i18n="j2_date">2025</div>
       <div class="j-right">
-        <div class="j-role">Tech Intern</div>
-        <div class="j-org">CAMP Investment Technologies — Singapore</div>
-        <div class="j-desc">Hands-on SDLC experience, improving product quality by identifying bugs and UX issues. Deep understanding of blockchain and cryptocurrency products.</div>
+        <div class="j-role" data-i18n="j2_role">Tech Intern</div>
+        <div class="j-org" data-i18n="j2_org">CAMP Investment Technologies — Singapore</div>
+        <div class="j-desc" data-i18n="j2_desc">Hands-on SDLC experience, improving product quality by identifying bugs and UX issues. Deep understanding of blockchain and cryptocurrency products.</div>
       </div>
     </div>
     <div class="j-item r d2">
-      <div class="j-date">2020 — 2023</div>
+      <div class="j-date" data-i18n="j3_date">2020 — 2023</div>
       <div class="j-right">
-        <div class="j-role">Digital Marketing & Systems Specialist</div>
-        <div class="j-org">itsbuah.com — Jakarta, Indonesia</div>
-        <div class="j-desc">Bridged technology and business, accelerating company growth by 250% within 6 months. Partnered with 5+ cross-functional teams to deliver data-driven insights.</div>
+        <div class="j-role" data-i18n="j3_role">Digital Marketing & Systems Specialist</div>
+        <div class="j-org" data-i18n="j3_org">itsbuah.com — Jakarta, Indonesia</div>
+        <div class="j-desc" data-i18n="j3_desc">Bridged technology and business, accelerating company growth by 250% within 6 months. Partnered with 5+ cross-functional teams to deliver data-driven insights.</div>
       </div>
     </div>
   </div>
@@ -423,15 +489,15 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- PROJECTS -->
 <section id="projects" class="sec">
-  <div class="sec-row r"><span class="sec-num">03</span><h2 class="sec-title" data-scramble="Projects">Projects</h2></div>
+  <div class="sec-row r"><span class="sec-num">03</span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
   <div id="proj-preview"></div>
   <div class="proj-list">
     <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video" data-cur="Play">
       <span class="proj-num">01</span>
       <div class="proj-left">
-        <div class="proj-cat">Featured · Game Development</div>
-        <div class="proj-name">Battleship War Game</div>
-        <div class="proj-desc">Arcade-style web game with custom-built assets and sound. Built to feel simple, tactile, and satisfying.</div>
+        <div class="proj-cat" data-i18n="p1_cat">Featured · Game Development</div>
+        <div class="proj-name" data-i18n="p1_name">Battleship War Game</div>
+        <div class="proj-desc" data-i18n="p1_desc">Arcade-style web game with custom-built assets and sound. Built to feel simple, tactile, and satisfying.</div>
       </div>
       <div class="proj-right">
         <div class="proj-tags"><span class="proj-tag">JavaScript</span><span class="proj-tag">Canvas</span></div>
@@ -441,9 +507,9 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
     <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img" data-cur="View">
       <span class="proj-num">02</span>
       <div class="proj-left">
-        <div class="proj-cat">Web Design</div>
-        <div class="proj-name">Indonesian Culinary Website</div>
-        <div class="proj-desc">A cultural website celebrating Indonesian cuisine — recommendations, recipes, and an inviting UI.</div>
+        <div class="proj-cat" data-i18n="p2_cat">Web Design</div>
+        <div class="proj-name" data-i18n="p2_name">Indonesian Culinary Website</div>
+        <div class="proj-desc" data-i18n="p2_desc">A cultural website celebrating Indonesian cuisine — recommendations, recipes, and an inviting UI.</div>
       </div>
       <div class="proj-right">
         <div class="proj-tags"><span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JS</span></div>
@@ -453,9 +519,9 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
     <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img" data-cur="View">
       <span class="proj-num">03</span>
       <div class="proj-left">
-        <div class="proj-cat">Media · Conference</div>
-        <div class="proj-name">Student Videos</div>
-        <div class="proj-desc">Video project produced for the Southeast Asia Conference at BYU–Hawai'i.</div>
+        <div class="proj-cat" data-i18n="p3_cat">Media · Conference</div>
+        <div class="proj-name" data-i18n="p3_name">Student Videos</div>
+        <div class="proj-desc" data-i18n="p3_desc">Video project produced for the Southeast Asia Conference at BYU–Hawai'i.</div>
       </div>
       <div class="proj-right">
         <div class="proj-tags"><span class="proj-tag">Video</span><span class="proj-tag">Storytelling</span></div>
@@ -467,8 +533,8 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- ART -->
 <section id="art" class="sec" style="padding-bottom:0">
-  <div class="sec-row r" style="margin-bottom:28px"><span class="sec-num">04</span><h2 class="sec-title" data-scramble="Visual Art">Visual Art</h2></div>
-  <p class="drag-hint r">Drag to explore</p>
+  <div class="sec-row r" style="margin-bottom:28px"><span class="sec-num">04</span><h2 class="sec-title" data-scramble data-i18n="sec_art">Visual Art</h2></div>
+  <p class="drag-hint r" data-i18n="drag_hint">Drag to explore</p>
 </section>
 <div class="art-outer r">
   <div class="art-track" id="artTrack">
@@ -483,50 +549,50 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- FEEDBACK -->
 <section id="feedback" class="sec">
-  <div class="sec-row r"><span class="sec-num">05</span><h2 class="sec-title" data-scramble="Peer Feedback">Peer Feedback</h2></div>
+  <div class="sec-row r"><span class="sec-num">05</span><h2 class="sec-title" data-scramble data-i18n="sec_feedback">Peer Feedback</h2></div>
   <div class="fb-grid">
     <div class="fb-card r">
       <div class="fb-q">"</div>
-      <p class="fb-text">Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group.</p>
-      <div class="fb-author"><div class="fb-name">Aquima Catayoc</div><div class="fb-ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
+      <p class="fb-text" data-i18n="fb1_text">Her dedication to completing the project on time while ensuring high-quality results was remarkable. Even when we encountered challenges, Ayu consistently demonstrated professionalism, patience, and kindness toward every member of the group.</p>
+      <div class="fb-author"><div class="fb-name">Aquima Catayoc</div><div class="fb-ctx" data-i18n="fb1_ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
     </div>
     <div class="fb-card r d1">
       <div class="fb-q">"</div>
-      <p class="fb-text">You are a remarkable individual and I'm happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!</p>
+      <p class="fb-text" data-i18n="fb2_text">You are a remarkable individual and I'm happy that I was able to work alongside you for this conference. I just know that great things are ahead of you!</p>
       <div class="fb-author"><div class="fb-name">Cynthia Uvang</div><div class="fb-ctx">RFHD BYU–Hawaii</div><div class="fb-date">May 2025</div></div>
     </div>
     <div class="fb-card r d2">
       <div class="fb-q">"</div>
-      <p class="fb-text">She consistently stands out for her positive attitude and strong teamwork. Always eager to help others — completing tasks efficiently and approaching every situation with kindness and professionalism.</p>
-      <div class="fb-author"><div class="fb-name">Julia Shih</div><div class="fb-ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
+      <p class="fb-text" data-i18n="fb3_text">She consistently stands out for her positive attitude and strong teamwork. Always eager to help others — completing tasks efficiently and approaching every situation with kindness and professionalism.</p>
+      <div class="fb-author"><div class="fb-name">Julia Shih</div><div class="fb-ctx" data-i18n="fb3_ctx">Business Marketing Class</div><div class="fb-date">Dec 2025</div></div>
     </div>
   </div>
 </section>
 
 <!-- BLOGS -->
 <section id="blogs" class="sec">
-  <div class="sec-row r"><span class="sec-num">06</span><h2 class="sec-title" data-scramble="Writing">Writing</h2></div>
+  <div class="sec-row r"><span class="sec-num">06</span><h2 class="sec-title" data-scramble data-i18n="sec_writing">Writing</h2></div>
   <div class="blog-grid">
     <div class="blog-card r">
       <p class="blog-eyebrow">LinkedIn Learning</p>
-      <h3 class="blog-title">Continuous Education</h3>
-      <p class="blog-desc">Certifications spanning content marketing, SEO, e-commerce, and machine learning.</p>
+      <h3 class="blog-title" data-i18n="blog1_title">Continuous Education</h3>
+      <p class="blog-desc" data-i18n="blog1_desc">Certifications spanning content marketing, SEO, e-commerce, and machine learning.</p>
       <div class="blog-links">
-        <a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713" class="blog-link" target="_blank">Content Marketing Foundations</a>
-        <a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db" class="blog-link" target="_blank">Digital Marketing Foundations</a>
-        <a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b" class="blog-link" target="_blank">SEO Foundations</a>
-        <a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e" class="blog-link" target="_blank">AI & Machine Learning</a>
+        <a href="https://www.linkedin.com/learning/certificates/842e9538d9f8da1caa0b3459e4e339a19b80dc62b83c9137fa318ffad9935713" class="blog-link" target="_blank" data-i18n="blog1_l1">Content Marketing Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/aa2d1b55759d6dd4010bacb21cc82b0a1d61cfec83bcff48c0659078fb53b7db" class="blog-link" target="_blank" data-i18n="blog1_l2">Digital Marketing Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/2821808912230c42b70e706227ddba9fea1850359309c05cd58a6a5581f4127b" class="blog-link" target="_blank" data-i18n="blog1_l3">SEO Foundations</a>
+        <a href="https://www.linkedin.com/learning/certificates/efa199918ece16bb5d3e994c8e833579d9cdf71e50d34601f8e9d4d636ca5c1e" class="blog-link" target="_blank" data-i18n="blog1_l4">AI & Machine Learning</a>
       </div>
     </div>
     <div class="blog-card r d1">
-      <p class="blog-eyebrow">Personal Reflections</p>
-      <h3 class="blog-title">Marketing & Business Writing</h3>
-      <p class="blog-desc">Personal reflections on marketing strategy, consumer behavior, and brand thinking — on LinkedIn.</p>
+      <p class="blog-eyebrow" data-i18n="blog2_eyebrow">Personal Reflections</p>
+      <h3 class="blog-title" data-i18n="blog2_title">Marketing & Business Writing</h3>
+      <p class="blog-desc" data-i18n="blog2_desc">Personal reflections on marketing strategy, consumer behavior, and brand thinking — on LinkedIn.</p>
       <div class="blog-links">
-        <a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr" class="blog-link" target="_blank">What is Marketing?</a>
-        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil" class="blog-link" target="_blank">Customer Value</a>
-        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt" class="blog-link" target="_blank">Nike's Marketing Strategy</a>
-        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO" class="blog-link" target="_blank">Pepsi VS Coca-Cola</a>
+        <a href="https://www.linkedin.com/posts/ayunks_marketing-obsessovercustomer-business-activity-7372820375308644352-hqwr" class="blog-link" target="_blank" data-i18n="blog2_l1">What is Marketing?</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketing-activity-7375469836975583232-_Sil" class="blog-link" target="_blank" data-i18n="blog2_l2">Customer Value</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-marketingstrategy-activity-7380524503572910080-IKmt" class="blog-link" target="_blank" data-i18n="blog2_l3">Nike's Marketing Strategy</a>
+        <a href="https://www.linkedin.com/posts/ayunks_byuh-byuhawaii-consumerbehavior-activity-7385191579243724800-2clO" class="blog-link" target="_blank" data-i18n="blog2_l4">Pepsi VS Coca-Cola</a>
       </div>
     </div>
   </div>
@@ -536,12 +602,12 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 <section id="contact" class="sec">
   <div class="contact-wrap">
     <div class="r">
-      <h2 class="contact-hl">Let's build<br>something<br><em>together.</em></h2>
-      <p class="contact-sub">Open to UI/UX roles, front-end collaborations, and creative projects. Always happy to connect.</p>
+      <h2 class="contact-hl" data-i18n="contact_hl">Let's build<br>something<br><em>together.</em></h2>
+      <p class="contact-sub" data-i18n="contact_sub">Open to UI/UX roles, front-end collaborations, and creative projects. Always happy to connect.</p>
     </div>
     <div class="contact-items r d1">
       <a href="mailto:ayunks27@go.byuh.edu" class="contact-row" data-cur="Email">
-        <div><div class="contact-label">Email</div><div class="contact-val">ayunks27@go.byuh.edu</div></div>
+        <div><div class="contact-label" data-i18n="contact_email_lbl">Email</div><div class="contact-val">ayunks27@go.byuh.edu</div></div>
         <span class="contact-arr">→</span>
       </a>
       <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank" data-cur="Open">
@@ -552,22 +618,46 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <div><div class="contact-label">GitHub</div><div class="contact-val">ayuningtyaskartikas</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-cur="Send">Send me an email →</a>
+      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-cur="Send" data-i18n="send_btn">Send me an email →</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p class="foot-copy">© 2025 Ayu Ningtyas Kartika Sari</p>
+  <p class="foot-copy" data-i18n="footer_copy">© 2025 Ayu Ningtyas Kartika Sari</p>
   <div class="foot-links">
     <a href="https://www.linkedin.com/in/ayunks/" target="_blank">LinkedIn</a>
     <a href="https://github.com/ayuningtyaskartikas" target="_blank">GitHub</a>
-    <a href="/assets/resume_ayu_sari.pdf" download>Resume</a>
+    <a href="/assets/resume_ayu_sari.pdf" download data-i18n="footer_resume">Resume</a>
   </div>
 </footer>
 
 <script>
+let currentTheme = localStorage.getItem('ayu_theme') || 'dark';
+
+function updateThemeLabel() {
+  const isDark = currentTheme === 'dark';
+  document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
+}
+
+function setTheme(theme) {
+  currentTheme = theme;
+  localStorage.setItem('ayu_theme', theme);
+  document.documentElement.setAttribute('data-theme', theme);
+  updateThemeLabel();
+}
+
+// Toggle theme
+document.getElementById('themeBtn').addEventListener('click', () => {
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
+
+// Init on load
+(function init() {
+  setTheme(currentTheme);
+})();
+
 /* ══════════════════════════════════════════
    TRAILING DOTS CURSOR
 ══════════════════════════════════════════ */
@@ -589,10 +679,8 @@ const curLbl = document.getElementById('cur-label');
 
 document.addEventListener('mousemove', e => {
   const x = e.clientX, y = e.clientY;
-  curDot.style.left = x + 'px';
-  curDot.style.top  = y + 'px';
-  curLbl.style.left = x + 'px';
-  curLbl.style.top  = (y - 34) + 'px';
+  curDot.style.left = x + 'px'; curDot.style.top  = y + 'px';
+  curLbl.style.left = x + 'px'; curLbl.style.top  = (y - 34) + 'px';
   trails.forEach(t => { t.style.left = x + 'px'; t.style.top = y + 'px'; });
 }, { passive: true });
 
@@ -609,6 +697,7 @@ document.querySelectorAll('[data-cur]').forEach(el => {
 ══════════════════════════════════════════ */
 function buildMagRow(id, text) {
   const row = document.getElementById(id);
+  row.innerHTML = '';
   text.split('').forEach(ch => {
     const s = document.createElement('span');
     s.className = 'mag-ch';
@@ -628,11 +717,17 @@ buildMagRow('heroRow1', 'Ayu');
 buildMagRow('heroRow2', 'Ningtyas');
 buildMagRow('heroRow3', 'Kartika Sari');
 
-/* ══════════════════════════════════════════
-   NAV
-══════════════════════════════════════════ */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 30), { passive: true });
+/* ── SCROLL PROGRESS BAR ── */
+const scrollBar = document.getElementById('scroll-bar');
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  scrollBar.style.width = pct + '%';
+}, { passive: true });
+
+/* ── NAV stuck ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('stuck', scrollY > 30), { passive: true });
 
 const ham = document.getElementById('navHam');
 const mob = document.getElementById('mobNav');
@@ -656,16 +751,17 @@ document.querySelectorAll('.r').forEach(el => revealObs.observe(el));
    TEXT SCRAMBLE on section headings
 ══════════════════════════════════════════ */
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#';
-function scramble(el) {
-  const target = el.dataset.scramble || el.textContent;
+function scramble(el, targetOverride) {
+  const target = targetOverride || el.dataset.scramble || el.textContent;
   let frame = 0; const TOTAL = 22;
-  const id = setInterval(() => {
+  if (el._scrambleId) clearInterval(el._scrambleId);
+  el._scrambleId = setInterval(() => {
     el.textContent = target.split('').map((ch, i) => {
       if (ch === ' ') return ' ';
       if (frame / TOTAL > i / target.length) return ch;
       return CHARS[Math.floor(Math.random() * CHARS.length)];
     }).join('');
-    if (frame++ >= TOTAL) { el.textContent = target; clearInterval(id); }
+    if (frame++ >= TOTAL) { el.textContent = target; clearInterval(el._scrambleId); }
   }, 44);
 }
 const scrambleObs = new IntersectionObserver(entries => {
