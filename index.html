@@ -81,12 +81,6 @@ body::after {
 body.cur-hover #cur-dot  { opacity:0 }
 body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
 
-/* ── SCROLL PROGRESS ── */
-#scroll-bar {
-  position:fixed; top:0; left:0; height:2px; width:0%;
-  background:var(--taupe); z-index:9997; transition:background .4s;
-  transform-origin:left;
-}
 .theme-switch {
   display:flex; align-items:center; gap:9px; cursor:none;
   background:none; border:none; padding:0;
@@ -380,9 +374,6 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 <!-- CURSOR -->
 <div id="cur-dot"></div>
 <div id="cur-label"></div>
-
-<!-- SCROLL PROGRESS -->
-<div id="scroll-bar"></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -716,14 +707,6 @@ function buildMagRow(id, text) {
 buildMagRow('heroRow1', 'Ayu');
 buildMagRow('heroRow2', 'Ningtyas');
 buildMagRow('heroRow3', 'Kartika Sari');
-
-/* ── SCROLL PROGRESS BAR ── */
-const scrollBar = document.getElementById('scroll-bar');
-window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
-  scrollBar.style.width = pct + '%';
-}, { passive: true });
 
 /* ── NAV stuck ── */
 const navEl = document.getElementById('nav');
