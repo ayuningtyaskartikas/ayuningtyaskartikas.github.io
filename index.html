@@ -24,6 +24,8 @@
   --blog-bg:var(--bg1);
   --contact-bg:var(--bg1);
   --theme-icon:"☀️";
+  --nav-bg:rgba(14,28,25,0);
+  --nav-bg-stuck:rgba(14,28,25,.82);
 }
 :root[data-theme="light"] {
   --bg:#f5f0e8; --bg1:#ece6da; --bg2:#e2dbd0;
@@ -39,6 +41,8 @@
   --blog-bg:#ece6da;
   --contact-bg:#ece6da;
   --theme-icon:"🌙";
+  --nav-bg:rgba(245,240,232,0);
+  --nav-bg-stuck:rgba(245,240,232,.88);
 }
 
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
@@ -101,10 +105,27 @@ body::after {
 nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
   padding:22px 52px; display:flex; align-items:center; justify-content:space-between;
-  transition:padding .3s var(--ease), background .3s;
+  /* Always cover the very top — extend background above with a pseudo-element */
+  transition:padding .3s var(--ease), background .3s, backdrop-filter .3s;
+  background:var(--nav-bg);
 }
-nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:blur(18px); border-bottom:1px solid var(--line) }
-[data-theme="light"] nav.stuck { background:rgba(245,240,232,.88) }
+
+/* This pseudo-element fills any sub-pixel gap between top:0 and the nav visually */
+nav::before {
+  content:"";
+  position:absolute;
+  top:-4px; left:0; right:0; height:4px;
+  background:inherit;
+  pointer-events:none;
+}
+
+nav.stuck {
+  padding:14px 52px;
+  background:var(--nav-bg-stuck);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
 .nav-mark { font-family:var(--f-ser); font-style:italic; font-size:1.1rem; color:var(--taupe); letter-spacing:.02em }
 .nav-links { list-style:none; display:flex; gap:36px }
 .nav-links a { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:inline-block; transition:color .2s }

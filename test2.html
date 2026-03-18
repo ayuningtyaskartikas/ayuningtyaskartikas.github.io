@@ -24,6 +24,8 @@
   --blog-bg:var(--bg1);
   --contact-bg:var(--bg1);
   --theme-icon:"☀️";
+  --nav-bg:rgba(14,28,25,0);
+  --nav-bg-stuck:rgba(14,28,25,.82);
 }
 :root[data-theme="light"] {
   --bg:#f5f0e8; --bg1:#ece6da; --bg2:#e2dbd0;
@@ -39,6 +41,8 @@
   --blog-bg:#ece6da;
   --contact-bg:#ece6da;
   --theme-icon:"🌙";
+  --nav-bg:rgba(245,240,232,0);
+  --nav-bg-stuck:rgba(245,240,232,.88);
 }
 
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
@@ -70,23 +74,8 @@ body::after {
   position:fixed; width:8px; height:8px; background:var(--taupe); border-radius:50%;
   pointer-events:none; z-index:9998; transform:translate(-50%,-50%); mix-blend-mode:screen;
 }
-#cur-label {
-  position:fixed; font-family:var(--f-grk); font-size:11px; font-weight:700;
-  letter-spacing:.08em; text-transform:uppercase; color:var(--bg); background:var(--taupe);
-  padding:5px 10px; border-radius:20px; pointer-events:none; z-index:9999;
-  transform:translate(-50%,-50%) scale(0);
-  transition:transform .25s var(--spring), opacity .2s; opacity:0; white-space:nowrap;
-}
 .trail-dot { position:fixed; border-radius:50%; pointer-events:none; z-index:9996; transform:translate(-50%,-50%) }
-body.cur-hover #cur-dot  { opacity:0 }
-body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
 
-/* ── SCROLL PROGRESS ── */
-#scroll-bar {
-  position:fixed; top:0; left:0; height:2px; width:0%;
-  background:var(--taupe); z-index:9997; transition:background .4s;
-  transform-origin:left;
-}
 .theme-switch {
   display:flex; align-items:center; gap:9px; cursor:none;
   background:none; border:none; padding:0;
@@ -116,10 +105,27 @@ body.cur-hover #cur-label { transform:translate(-50%,-50%) scale(1); opacity:1 }
 nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
   padding:22px 52px; display:flex; align-items:center; justify-content:space-between;
-  transition:padding .3s var(--ease), background .3s;
+  /* Always cover the very top — extend background above with a pseudo-element */
+  transition:padding .3s var(--ease), background .3s, backdrop-filter .3s;
+  background:var(--nav-bg);
 }
-nav.stuck { padding:14px 52px; background:rgba(14,28,25,.82); backdrop-filter:blur(18px); border-bottom:1px solid var(--line) }
-[data-theme="light"] nav.stuck { background:rgba(245,240,232,.88) }
+
+/* This pseudo-element fills any sub-pixel gap between top:0 and the nav visually */
+nav::before {
+  content:"";
+  position:absolute;
+  top:-4px; left:0; right:0; height:4px;
+  background:inherit;
+  pointer-events:none;
+}
+
+nav.stuck {
+  padding:14px 52px;
+  background:var(--nav-bg-stuck);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
 .nav-mark { font-family:var(--f-ser); font-style:italic; font-size:1.1rem; color:var(--taupe); letter-spacing:.02em }
 .nav-links { list-style:none; display:flex; gap:36px }
 .nav-links a { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:inline-block; transition:color .2s }
@@ -379,10 +385,6 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- CURSOR -->
 <div id="cur-dot"></div>
-<div id="cur-label"></div>
-
-<!-- SCROLL PROGRESS -->
-<div id="scroll-bar"></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -395,7 +397,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme" data-cur="Theme">
+    <button class="theme-switch" id="themeBtn" aria-label="Toggle theme">
       <span class="theme-switch-label" id="themeLabel">Light</span>
       <div class="switch-track"><div class="switch-thumb"></div></div>
     </button>
@@ -416,7 +418,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 <section class="hero" id="top">
   <div class="hero-blob" aria-hidden="true"></div>
   <div>
-    <p class="hero-tag" data-i18n="hero_tag">UI/UX Designer · Developer · Hawai'i</p>
+    <p class="hero-tag" data-i18n="hero_tag">System Catalyst · UI/UX · Developer · Hawai'i</p>
     <div class="mag-row row1" id="heroRow1" aria-label="Ayu"></div>
     <div class="mag-row row2" id="heroRow2" aria-label="Ningtyas"></div>
     <div class="mag-row row3" id="heroRow3" aria-label="Kartika Sari"></div>
@@ -432,22 +434,16 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 <!-- ABOUT -->
 <section id="about" class="sec">
   <div class="about-sticky r">
-    <div class="sec-row"><span class="sec-num">01</span><h2 class="sec-title" data-scramble data-i18n="sec_about">About me</h2></div>
-    <div class="stat-grid">
-      <div class="stat-cell"><span class="stat-n">35+</span><span class="stat-l" data-i18n="stat1">students/week</span></div>
-      <div class="stat-cell"><span class="stat-n">250%</span><span class="stat-l" data-i18n="stat2">company growth</span></div>
-      <div class="stat-cell"><span class="stat-n">3+</span><span class="stat-l" data-i18n="stat3">years industry</span></div>
-      <div class="stat-cell"><span class="stat-n">4</span><span class="stat-l" data-i18n="stat4">countries collab'd</span></div>
-    </div>
-    <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn" data-cur="Download">
+    <div class="sec-row"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_about">About me</h2></div>
+    <a href="/assets/resume_ayu_sari.pdf" download class="cv-btn">
       <span data-i18n="cv_btn">Get my CV</span>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
   <div class="about-body r d1">
     <p class="drop-cap" data-i18n="about_p1">I'm a catalyst for growth, passionate about accelerating innovation and making systems more effective. As an impact-driven developer, I focus on creating real-world solutions that deliver meaningful results.</p>
-    <p data-i18n="about_p2">My journey started in digital marketing and sales at a Jakarta startup — three years where I learned to bridge technology and human needs. That sharpened my eye for what makes products truly usable, not just functional.</p>
-    <p data-i18n="about_p3">Studying Computer Science at BYU–Hawai'i with minors in Marketing and Visual Arts, I bring a rare cross-disciplinary lens: I design with empathy, build with precision, and lead with curiosity.</p>
+    <p data-i18n="about_p2">My journey started in digital marketing and sales at a Jakarta startup, three years where I learned to bridge technology and human needs. That sharpened my eye for what makes products truly usable, not just functional.</p>
+    <p data-i18n="about_p3">Studying Computer Science at BYU–Hawai'i with minors in Marketing and Visual Arts, I bring a rare cross-disciplinary lens. I design with empathy, build with precision, and lead with curiosity.</p>
     <div class="skill-chips">
       <span class="chip">Figma</span><span class="chip">HTML & CSS</span><span class="chip">JavaScript</span>
       <span class="chip">Java</span><span class="chip">Python</span><span class="chip">UX Research</span>
@@ -458,7 +454,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- JOURNEY -->
 <section id="journey" class="sec">
-  <div class="sec-row r"><span class="sec-num">02</span><h2 class="sec-title" data-scramble data-i18n="sec_journey">Journey</h2></div>
+  <div class="sec-row r"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_journey">Journey</h2></div>
   <div class="journey-list">
     <div class="j-item r">
       <div class="j-date" data-i18n="j1_date">2025 — Present</div>
@@ -489,11 +485,11 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- PROJECTS -->
 <section id="projects" class="sec">
-  <div class="sec-row r"><span class="sec-num">03</span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
+  <div class="sec-row r"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_projects">Projects</h2></div>
   <div id="proj-preview"></div>
   <div class="proj-list">
-    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video" data-cur="Play">
-      <span class="proj-num">01</span>
+    <div class="proj-item r" data-preview="/assets/battleship.mp4" data-preview-type="video">
+      <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p1_cat">Featured · Game Development</div>
         <div class="proj-name" data-i18n="p1_name">Battleship War Game</div>
@@ -504,8 +500,8 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://ayuningtyaskartikas.github.io/mybattleshipwar/main.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img" data-cur="View">
-      <span class="proj-num">02</span>
+    <div class="proj-item r d1" data-preview="/assets/web.png" data-preview-type="img">
+      <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p2_cat">Web Design</div>
         <div class="proj-name" data-i18n="p2_name">Indonesian Culinary Website</div>
@@ -516,8 +512,8 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
         <a href="https://cs401w2018.github.io/projects-ayuningtyaskartikas/final/indonesia-culinary/menu.html" target="_blank" class="proj-arrow">↗</a>
       </div>
     </div>
-    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img" data-cur="View">
-      <span class="proj-num">03</span>
+    <div class="proj-item r d2" data-preview="/assets/student.png" data-preview-type="img">
+      <span class="proj-num"></span>
       <div class="proj-left">
         <div class="proj-cat" data-i18n="p3_cat">Media · Conference</div>
         <div class="proj-name" data-i18n="p3_name">Student Videos</div>
@@ -533,7 +529,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- ART -->
 <section id="art" class="sec" style="padding-bottom:0">
-  <div class="sec-row r" style="margin-bottom:28px"><span class="sec-num">04</span><h2 class="sec-title" data-scramble data-i18n="sec_art">Visual Art</h2></div>
+  <div class="sec-row r" style="margin-bottom:28px"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_art">Visual Art</h2></div>
   <p class="drag-hint r" data-i18n="drag_hint">Drag to explore</p>
 </section>
 <div class="art-outer r">
@@ -549,7 +545,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- FEEDBACK -->
 <section id="feedback" class="sec">
-  <div class="sec-row r"><span class="sec-num">05</span><h2 class="sec-title" data-scramble data-i18n="sec_feedback">Peer Feedback</h2></div>
+  <div class="sec-row r"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_feedback">Peer Feedback</h2></div>
   <div class="fb-grid">
     <div class="fb-card r">
       <div class="fb-q">"</div>
@@ -571,7 +567,7 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
 
 <!-- BLOGS -->
 <section id="blogs" class="sec">
-  <div class="sec-row r"><span class="sec-num">06</span><h2 class="sec-title" data-scramble data-i18n="sec_writing">Writing</h2></div>
+  <div class="sec-row r"><span class="sec-num"></span><h2 class="sec-title" data-scramble data-i18n="sec_writing">Writing</h2></div>
   <div class="blog-grid">
     <div class="blog-card r">
       <p class="blog-eyebrow">LinkedIn Learning</p>
@@ -606,19 +602,19 @@ footer { padding:28px 52px; border-top:1px solid var(--line); display:flex; alig
       <p class="contact-sub" data-i18n="contact_sub">Open to UI/UX roles, front-end collaborations, and creative projects. Always happy to connect.</p>
     </div>
     <div class="contact-items r d1">
-      <a href="mailto:ayunks27@go.byuh.edu" class="contact-row" data-cur="Email">
+      <a href="mailto:ayunks27@go.byuh.edu" class="contact-row">
         <div><div class="contact-label" data-i18n="contact_email_lbl">Email</div><div class="contact-val">ayunks27@go.byuh.edu</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank" data-cur="Open">
+      <a href="https://www.linkedin.com/in/ayunks/" class="contact-row" target="_blank">
         <div><div class="contact-label">LinkedIn</div><div class="contact-val">@ayunks</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="https://github.com/ayuningtyaskartikas" class="contact-row" target="_blank" data-cur="Open">
+      <a href="https://github.com/ayuningtyaskartikas" class="contact-row" target="_blank">
         <div><div class="contact-label">GitHub</div><div class="contact-val">ayuningtyaskartikas</div></div>
         <span class="contact-arr">→</span>
       </a>
-      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-cur="Send" data-i18n="send_btn">Send me an email →</a>
+      <a href="mailto:ayunks27@go.byuh.edu" class="send-btn" data-i18n="send_btn">Send me an email →</a>
     </div>
   </div>
 </section>
@@ -648,12 +644,10 @@ function setTheme(theme) {
   updateThemeLabel();
 }
 
-// Toggle theme
 document.getElementById('themeBtn').addEventListener('click', () => {
   setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 });
 
-// Init on load
 (function init() {
   setTheme(currentTheme);
 })();
@@ -675,22 +669,12 @@ for (let i = 0; i < TRAIL_COUNT; i++) {
 }
 
 const curDot = document.getElementById('cur-dot');
-const curLbl = document.getElementById('cur-label');
 
 document.addEventListener('mousemove', e => {
   const x = e.clientX, y = e.clientY;
   curDot.style.left = x + 'px'; curDot.style.top  = y + 'px';
-  curLbl.style.left = x + 'px'; curLbl.style.top  = (y - 34) + 'px';
   trails.forEach(t => { t.style.left = x + 'px'; t.style.top = y + 'px'; });
 }, { passive: true });
-
-document.addEventListener('mousedown', () => document.body.classList.add('cur-click'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
-
-document.querySelectorAll('[data-cur]').forEach(el => {
-  el.addEventListener('mouseenter', () => { curLbl.textContent = el.dataset.cur; document.body.classList.add('cur-hover'); });
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cur-hover'));
-});
 
 /* ══════════════════════════════════════════
    MAGNETIC HERO NAME
@@ -716,14 +700,6 @@ function buildMagRow(id, text) {
 buildMagRow('heroRow1', 'Ayu');
 buildMagRow('heroRow2', 'Ningtyas');
 buildMagRow('heroRow3', 'Kartika Sari');
-
-/* ── SCROLL PROGRESS BAR ── */
-const scrollBar = document.getElementById('scroll-bar');
-window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
-  scrollBar.style.width = pct + '%';
-}, { passive: true });
 
 /* ── NAV stuck ── */
 const navEl = document.getElementById('nav');
